@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "522112965987",
+    "project_id": "demoit-723c4",
+    "storage_bucket": "demoit-723c4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522112965987:android:30a785c897c18e928c8756",
+        "android_client_info": {
+          "package_name": "com.crm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522112965987-mc0pde2338nq7q75ks03v6pjt2svrqmi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwmnOpKla-J4T6epUjXJIr9rO78ANb-OM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522112965987-mc0pde2338nq7q75ks03v6pjt2svrqmi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "522112965987-h376lka0l59u1skm5sm1g67cckq80kua.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.demoitpath"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522112965987:android:6638d5ad0b6aecb58c8756",
+        "android_client_info": {
+          "package_name": "com.crm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522112965987-mc0pde2338nq7q75ks03v6pjt2svrqmi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwmnOpKla-J4T6epUjXJIr9rO78ANb-OM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522112965987-mc0pde2338nq7q75ks03v6pjt2svrqmi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "522112965987-h376lka0l59u1skm5sm1g67cckq80kua.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.demoitpath"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
