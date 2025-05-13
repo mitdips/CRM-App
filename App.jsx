@@ -14,11 +14,11 @@
 
 // export default App;
 
-import {Text, View} from 'react-native';
-
+import {View} from 'react-native';
+import Text from './src/components/atoms/Text';
 const App = () => {
   return (
-    <View>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>CRM_App</Text>
     </View>
   );
