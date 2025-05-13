@@ -14,20 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-CRM-CRMTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-CRM-CRMTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		D1A75863D6334F7EA5BE8A44 /* WinkyRough-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6371F4FAE92442888CA0E47 /* WinkyRough-Black.ttf */; };
-		997B8EF548D640D3A151CDEC /* WinkyRough-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4938545E8F2A4F478CAA089A /* WinkyRough-BlackItalic.ttf */; };
-		912A0A6CD7324D308CF57509 /* WinkyRough-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D1B48051EA242289104449C /* WinkyRough-Bold.ttf */; };
-		387331B7F92D4DAF868EABF2 /* WinkyRough-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F3B97A8568C4B3A8D1C9F09 /* WinkyRough-BoldItalic.ttf */; };
-		91D4C4F7344E470F9441969A /* WinkyRough-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C8E6690F651241348FF5E038 /* WinkyRough-ExtraBold.ttf */; };
-		8EB286F71A434C7C8567EE83 /* WinkyRough-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3F65BDD45DF44FA8970237C /* WinkyRough-ExtraBoldItalic.ttf */; };
-		62346250F4D842169031AC91 /* WinkyRough-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B863278C8DF4AC080A40DF0 /* WinkyRough-Italic.ttf */; };
-		2BD4C048F2F049CDAFCDE420 /* WinkyRough-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EB48C7E40604914A838860B /* WinkyRough-Light.ttf */; };
-		4C2C8E7143134D3AB3E36A81 /* WinkyRough-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB2E42D709654930830A2046 /* WinkyRough-LightItalic.ttf */; };
-		795F524B8D56480EB2F2CD66 /* WinkyRough-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EAB7A7B0237D41E6B2BFA4CA /* WinkyRough-Medium.ttf */; };
-		94F00A6B61C5426C8DA04B88 /* WinkyRough-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B1DB56D1DCE4D80B858A128 /* WinkyRough-MediumItalic.ttf */; };
 		400EB6E7BC544D378C3EB610 /* WinkyRough-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8DA557D87E2458F8ECCAE67 /* WinkyRough-Regular.ttf */; };
-		DFA58600C86342E6893F2FAC /* WinkyRough-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21752EA67A544F69B5D29F1A /* WinkyRough-SemiBold.ttf */; };
-		AD898B12ABC442E9A89B6E88 /* WinkyRough-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 019A6454A5CF4A53886AE5F1 /* WinkyRough-SemiBoldItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,20 +45,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = CRM/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-CRM-CRMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CRM-CRMTests.release.xcconfig"; path = "Target Support Files/Pods-CRM-CRMTests/Pods-CRM-CRMTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		C6371F4FAE92442888CA0E47 /* WinkyRough-Black.ttf */ = {isa = PBXFileReference; name = "WinkyRough-Black.ttf"; path = "../src/assets/fonts/WinkyRough-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4938545E8F2A4F478CAA089A /* WinkyRough-BlackItalic.ttf */ = {isa = PBXFileReference; name = "WinkyRough-BlackItalic.ttf"; path = "../src/assets/fonts/WinkyRough-BlackItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9D1B48051EA242289104449C /* WinkyRough-Bold.ttf */ = {isa = PBXFileReference; name = "WinkyRough-Bold.ttf"; path = "../src/assets/fonts/WinkyRough-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		0F3B97A8568C4B3A8D1C9F09 /* WinkyRough-BoldItalic.ttf */ = {isa = PBXFileReference; name = "WinkyRough-BoldItalic.ttf"; path = "../src/assets/fonts/WinkyRough-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C8E6690F651241348FF5E038 /* WinkyRough-ExtraBold.ttf */ = {isa = PBXFileReference; name = "WinkyRough-ExtraBold.ttf"; path = "../src/assets/fonts/WinkyRough-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E3F65BDD45DF44FA8970237C /* WinkyRough-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; name = "WinkyRough-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/WinkyRough-ExtraBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2B863278C8DF4AC080A40DF0 /* WinkyRough-Italic.ttf */ = {isa = PBXFileReference; name = "WinkyRough-Italic.ttf"; path = "../src/assets/fonts/WinkyRough-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7EB48C7E40604914A838860B /* WinkyRough-Light.ttf */ = {isa = PBXFileReference; name = "WinkyRough-Light.ttf"; path = "../src/assets/fonts/WinkyRough-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		EB2E42D709654930830A2046 /* WinkyRough-LightItalic.ttf */ = {isa = PBXFileReference; name = "WinkyRough-LightItalic.ttf"; path = "../src/assets/fonts/WinkyRough-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		EAB7A7B0237D41E6B2BFA4CA /* WinkyRough-Medium.ttf */ = {isa = PBXFileReference; name = "WinkyRough-Medium.ttf"; path = "../src/assets/fonts/WinkyRough-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2B1DB56D1DCE4D80B858A128 /* WinkyRough-MediumItalic.ttf */ = {isa = PBXFileReference; name = "WinkyRough-MediumItalic.ttf"; path = "../src/assets/fonts/WinkyRough-MediumItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		B8DA557D87E2458F8ECCAE67 /* WinkyRough-Regular.ttf */ = {isa = PBXFileReference; name = "WinkyRough-Regular.ttf"; path = "../src/assets/fonts/WinkyRough-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		21752EA67A544F69B5D29F1A /* WinkyRough-SemiBold.ttf */ = {isa = PBXFileReference; name = "WinkyRough-SemiBold.ttf"; path = "../src/assets/fonts/WinkyRough-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		019A6454A5CF4A53886AE5F1 /* WinkyRough-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "WinkyRough-SemiBoldItalic.ttf"; path = "../src/assets/fonts/WinkyRough-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,20 +154,7 @@
 		0F9D96A27FC642DC8DFDCD0B /* Resources */ = {
 			isa = "PBXGroup";
 			children = (
-				C6371F4FAE92442888CA0E47 /* WinkyRough-Black.ttf */,
-				4938545E8F2A4F478CAA089A /* WinkyRough-BlackItalic.ttf */,
-				9D1B48051EA242289104449C /* WinkyRough-Bold.ttf */,
-				0F3B97A8568C4B3A8D1C9F09 /* WinkyRough-BoldItalic.ttf */,
-				C8E6690F651241348FF5E038 /* WinkyRough-ExtraBold.ttf */,
-				E3F65BDD45DF44FA8970237C /* WinkyRough-ExtraBoldItalic.ttf */,
-				2B863278C8DF4AC080A40DF0 /* WinkyRough-Italic.ttf */,
-				7EB48C7E40604914A838860B /* WinkyRough-Light.ttf */,
-				EB2E42D709654930830A2046 /* WinkyRough-LightItalic.ttf */,
-				EAB7A7B0237D41E6B2BFA4CA /* WinkyRough-Medium.ttf */,
-				2B1DB56D1DCE4D80B858A128 /* WinkyRough-MediumItalic.ttf */,
 				B8DA557D87E2458F8ECCAE67 /* WinkyRough-Regular.ttf */,
-				21752EA67A544F69B5D29F1A /* WinkyRough-SemiBold.ttf */,
-				019A6454A5CF4A53886AE5F1 /* WinkyRough-SemiBoldItalic.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -294,20 +255,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				D1A75863D6334F7EA5BE8A44 /* WinkyRough-Black.ttf in Resources */,
-				997B8EF548D640D3A151CDEC /* WinkyRough-BlackItalic.ttf in Resources */,
-				912A0A6CD7324D308CF57509 /* WinkyRough-Bold.ttf in Resources */,
-				387331B7F92D4DAF868EABF2 /* WinkyRough-BoldItalic.ttf in Resources */,
-				91D4C4F7344E470F9441969A /* WinkyRough-ExtraBold.ttf in Resources */,
-				8EB286F71A434C7C8567EE83 /* WinkyRough-ExtraBoldItalic.ttf in Resources */,
-				62346250F4D842169031AC91 /* WinkyRough-Italic.ttf in Resources */,
-				2BD4C048F2F049CDAFCDE420 /* WinkyRough-Light.ttf in Resources */,
-				4C2C8E7143134D3AB3E36A81 /* WinkyRough-LightItalic.ttf in Resources */,
-				795F524B8D56480EB2F2CD66 /* WinkyRough-Medium.ttf in Resources */,
-				94F00A6B61C5426C8DA04B88 /* WinkyRough-MediumItalic.ttf in Resources */,
 				400EB6E7BC544D378C3EB610 /* WinkyRough-Regular.ttf in Resources */,
-				DFA58600C86342E6893F2FAC /* WinkyRough-SemiBold.ttf in Resources */,
-				AD898B12ABC442E9A89B6E88 /* WinkyRough-SemiBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

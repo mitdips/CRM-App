@@ -49,20 +49,7 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>WinkyRough-Black.ttf</string>
-		<string>WinkyRough-BlackItalic.ttf</string>
-		<string>WinkyRough-Bold.ttf</string>
-		<string>WinkyRough-BoldItalic.ttf</string>
-		<string>WinkyRough-ExtraBold.ttf</string>
-		<string>WinkyRough-ExtraBoldItalic.ttf</string>
-		<string>WinkyRough-Italic.ttf</string>
-		<string>WinkyRough-Light.ttf</string>
-		<string>WinkyRough-LightItalic.ttf</string>
-		<string>WinkyRough-Medium.ttf</string>
-		<string>WinkyRough-MediumItalic.ttf</string>
 		<string>WinkyRough-Regular.ttf</string>
-		<string>WinkyRough-SemiBold.ttf</string>
-		<string>WinkyRough-SemiBoldItalic.ttf</string>
 	</array>
 </dict>
 </plist>
