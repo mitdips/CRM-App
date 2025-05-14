@@ -3,5 +3,5 @@ export const COLORS = {
   secondary: '#F2F8FC',
   black: '#000',
   white: '#fff',
-  gray: '#D8E0F0',
+  gray: '#909090',
 };

@@ -7,7 +7,7 @@ const AuthTemplate = ({children}) => {
   return (
     <View style={styles.container}>
       <LogoText />
-      {children}
+      <View style={styles.innerContainer}>{children}</View>
     </View>
   );
 };

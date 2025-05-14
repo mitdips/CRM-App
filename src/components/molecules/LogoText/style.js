@@ -5,12 +5,12 @@ import {scale} from 'react-native-size-matters';
 export const useStyle = () => {
   return StyleSheet.create({
     logoView: {
-      top: width * 0.1,
+      height: '20%',
       backgroundColor: COLORS.secondary,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: width * 0.1,
+      gap: width * 0.05,
     },
     logo: {
       width: width * 0.13,
