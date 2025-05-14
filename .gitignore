@@ -33,6 +33,7 @@ local.properties
 .cxx/
 *.apk
 *.keystore
+debug.keystore
  
 # node.js
 #
