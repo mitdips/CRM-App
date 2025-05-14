@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {scale} from 'react-native-size-matters';
+import { StyleSheet } from 'react-native';
+import { scale } from 'react-native-size-matters';
 import { width } from '../../../utils/helper';
 import { COLORS } from '../../../utils/colors';
 
@@ -10,13 +10,12 @@ export const useStyle = () => {
       paddingVertical: width * 0.03,
       alignSelf: 'center',
       borderRadius: 15,
-      elevation: 1,
+      elevation: 2,
     },
     btnText: {
       fontSize: scale(14),
-      fontWeight: '400',
+      fontWeight: '500',
       textAlign: 'center',
-      flexDirection: 'row',
     },
     prefixLogo: {
       width: width * 0.05,
@@ -24,16 +23,16 @@ export const useStyle = () => {
       resizeMode: 'contain',
     },
     postfixLogo: {
-      tintColor: COLORS.white,
       width: width * 0.045,
       height: width * 0.045,
       resizeMode: 'contain',
+      tintColor: COLORS.white,
     },
-    ButtonRow: {
+    buttonRow: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: width * 0.015,
+      paddingHorizontal: 8,
     },
   });
 };

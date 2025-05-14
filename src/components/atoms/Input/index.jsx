@@ -1,10 +1,12 @@
-import {useState} from 'react';
-import {View, Image, TouchableOpacity} from 'react-native';
-import {TextInput} from 'react-native-paper';
-import {useStyle} from './style';
-import {IMAGES} from '../../../assets';
-import {COLORS} from '../../../utils/colors';
-import CustomText from '../Text';
+import { useState } from 'react';
+import { View } from 'react-native';
+import { TextInput } from 'react-native-paper';
+import { useStyle } from './style';
+import { COLORS } from '../../../utils/colors';
+import Text from '../Text';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
+
 const Input = ({
   placeholder,
   value,
@@ -17,8 +19,9 @@ const Input = ({
   backgroundColor,
   multiline = false,
   prefixIcon,
-  showClearButton,
+  showClearButton = false,
   onClear,
+  ...rest
 }) => {
   const [isSecure, setIsSecure] = useState(isPassword);
   const styles = useStyle();
@@ -28,29 +31,29 @@ const Input = ({
       return (
         <TextInput.Icon
           icon={() => (
-            <TouchableOpacity onPress={() => setIsSecure(!isSecure)}>
-              <Image
-                source={isSecure ? IMAGES.eyeOff : IMAGES.eye}
-                style={styles.EyeIcon}
-              />
-            </TouchableOpacity>
+            <Feather
+              name={isSecure ? 'eye-off' : 'eye'}
+              size={24}
+              color={COLORS.gray}
+              onPress={() => setIsSecure(!isSecure)}
+            />
           )}
         />
       );
-    }
-
-    if (showClearButton && value?.length > 0) {
+    } else if (showClearButton && value?.length > 0) {
       return (
         <TextInput.Icon
           icon={() => (
-            <TouchableOpacity onPress={onClear}>
-              <Image source={IMAGES.closeIcon} style={styles.closeIcon} />
-            </TouchableOpacity>
+            <MaterialCommunityIcons
+              name="close-circle"
+              size={24}
+              color={COLORS.gray}
+              onPress={onClear}
+            />
           )}
         />
       );
     }
-
     return null;
   };
 
@@ -58,7 +61,7 @@ const Input = ({
     <View style={[styles.inputContainer, style]}>
       <TextInput
         mode="outlined"
-        label={<CustomText>{placeholder}</CustomText>}
+        label={placeholder}
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
@@ -67,8 +70,8 @@ const Input = ({
         multiline={multiline}
         style={[
           styles.inputField,
-          {backgroundColor},
-          multiline && {minHeight: width * 0.35, textAlignVertical: 'top'},
+          { backgroundColor },
+          multiline && { minHeight: 100, textAlignVertical: 'top' },
         ]}
         outlineColor={error ? COLORS.error : COLORS.darkGray}
         activeOutlineColor={COLORS.primary}
@@ -76,7 +79,11 @@ const Input = ({
           prefixIcon ? (
             <TextInput.Icon
               icon={() => (
-                <Image source={prefixIcon} style={styles.PrefixIcon} />
+                <MaterialCommunityIcons
+                  name={prefixIcon}
+                  size={24}
+                  color={COLORS.gray}
+                />
               )}
             />
           ) : null
@@ -85,12 +92,13 @@ const Input = ({
         theme={{
           colors: {
             text: COLORS.black,
-            placeholder: COLORS.darkGray,
+            placeholder: COLORS.gray,
           },
           roundness: 10,
         }}
+        {...rest}
       />
-      {error && <CustomText style={styles.errorText}>{error}</CustomText>}
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 };

@@ -1,8 +1,8 @@
-import {Text} from 'react-native';
+import {Text as RNText} from 'react-native';
 
-const CustomText = ({children, style, numberOfLines, onPress}) => {
+const Text = ({children, style, numberOfLines, onPress}) => {
   return (
-    <Text
+    <RNText
       style={[
         {
           fontFamily: 'WinkyRough-Regular',
@@ -12,8 +12,9 @@ const CustomText = ({children, style, numberOfLines, onPress}) => {
       numberOfLines={numberOfLines}
       onPress={onPress}>
       {children}
-    </Text>
+    </RNText>
   );
 };
 
-export default CustomText;
+export default Text;
+

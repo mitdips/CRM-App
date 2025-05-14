@@ -1,4 +1,4 @@
-import {TouchableOpacity, Image, View, ActivityIndicator} from 'react-native';
+import {Image, View, ActivityIndicator, Pressable} from 'react-native';
 import {useStyle} from './style';
 import Text from '../Text';
 import {COLORS} from '../../../utils/colors';
@@ -16,18 +16,19 @@ const Button = ({
   loading = false,
 }) => {
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={!loading ? onPress : null}
       disabled={loading}
-      activeOpacity={loading ? 1 : 0.7}
-      style={[
+      style={({pressed}) => [
         styles.btnContainer,
         {
           backgroundColor: loading ? COLORS.gray : bgColor || COLORS.primary,
+          opacity: pressed && !loading ? 0.85 : 1,
+          transform: [{scale: pressed && !loading ? 0.85 : 1}],
         },
         style,
       ]}>
-      <View style={styles.ButtonRow}>
+      <View style={styles.buttonRow}>
         {loading ? (
           <ActivityIndicator size="small" color={COLORS.primary} />
         ) : (
@@ -37,10 +38,7 @@ const Button = ({
             )}
             <Text
               type="medium"
-              style={[
-                styles.btnText,
-                {color: textColor ? textColor : COLORS.white},
-              ]}>
+              style={[styles.btnText, {color: textColor || COLORS.white}]}>
               {title}
             </Text>
             {postfixLogo && (
@@ -49,7 +47,7 @@ const Button = ({
           </>
         )}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
