@@ -1,4 +1,4 @@
-import {View, ScrollView, KeyboardAvoidingView} from 'react-native';
+import {View} from 'react-native';
 import {Formik} from 'formik';
 import FirstnameField from '../../molecules/FirstnameField';
 import LastnameField from '../../molecules/LastnameField';
@@ -17,7 +17,7 @@ const RegistrationForm = ({onSubmit, navigation}) => {
     firstName: '',
     lastName: '',
     email: '',
-    mobileno: '',
+    mobileNo: '',
     password: '',
     confirmPassword: '',
   };
@@ -33,73 +33,62 @@ const RegistrationForm = ({onSubmit, navigation}) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.keyboardView}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled">
-        <Formik
-          initialValues={initialValues}
-          validationSchema={registrationValidationSchema}
-          onSubmit={handleRegistration}>
-          {({
-            handleChange,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-            isSubmitting,
-          }) => (
-            <View style={styles.formContainer}>
-              <FirstnameField
-                value={values.firstName}
-                onChangeText={handleChange('firstName')}
-                error={touched.firstName && errors.firstName}
-              />
+    <Formik
+      initialValues={initialValues}
+      validationSchema={registrationValidationSchema}
+      onSubmit={handleRegistration}>
+      {({
+        handleChange,
+        handleSubmit,
+        values,
+        errors,
+        touched,
+        isSubmitting,
+      }) => (
+        <View style={styles.formContainer}>
+          <FirstnameField
+            value={values.firstName}
+            onChangeText={handleChange('firstName')}
+            error={touched.firstName && errors.firstName}
+          />
 
-              <LastnameField
-                value={values.lastName}
-                onChangeText={handleChange('lastName')}
-                error={touched.lastName && errors.lastName}
-              />
+          <LastnameField
+            value={values.lastName}
+            onChangeText={handleChange('lastName')}
+            error={touched.lastName && errors.lastName}
+          />
 
-              <EmailField
-                value={values.email}
-                onChangeText={handleChange('email')}
-                error={touched.email && errors.email}
-              />
+          <EmailField
+            value={values.email}
+            onChangeText={handleChange('email')}
+            error={touched.email && errors.email}
+          />
 
-              <MobilenoFields
-                value={values.mobileno}
-                onChangeText={handleChange('mobileno')}
-                error={touched.mobileno && errors.mobileno}
-              />
+          <MobilenoFields
+            value={values.mobileNo}
+            onChangeText={handleChange('mobileNo')}
+            error={touched.mobileNo && errors.mobileNo}
+          />
 
-              <PasswordField
-                value={values.password}
-                onChangeText={handleChange('password')}
-                error={touched.password && errors.password}
-              />
+          <PasswordField
+            placeholder="Password"
+            value={values.password}
+            onChangeText={handleChange('password')}
+            error={touched.password && errors.password}
+          />
 
-              <PasswordField
-                value={values.confirmPassword}
-                onChangeText={handleChange('confirmPassword')}
-                error={touched.confirmPassword && errors.confirmPassword}
-                styleText={{color: COLORS.gray}}
-                placeholder="Confirm Password"
-              />
+          <PasswordField
+            value={values.confirmPassword}
+            onChangeText={handleChange('confirmPassword')}
+            error={touched.confirmPassword && errors.confirmPassword}
+            styleText={{color: COLORS.gray}}
+            placeholder="Confirm Password"
+          />
 
-              <RegistrationButton
-                onPress={handleSubmit}
-                loading={isSubmitting}
-              />
-            </View>
-          )}
-        </Formik>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          <RegistrationButton onPress={handleSubmit} loading={isSubmitting} />
+        </View>
+      )}
+    </Formik>
   );
 };
 

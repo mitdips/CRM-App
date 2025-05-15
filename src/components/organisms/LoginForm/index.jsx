@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import {View} from 'react-native';
 import {Formik} from 'formik';
-import EmailField from '../../molecules/EmailFields';
 import PasswordField from '../../molecules/PasswordFields';
 import RememberForgot from '../../molecules/RememberForget';
 import LoginButton from '../../molecules/LoginButton';
@@ -10,6 +9,7 @@ import {loginValidationSchema} from '../../../utils/validationSchema';
 import GoogleButton from '../../molecules/GoogleButton';
 import GithubButton from '../../molecules/GithubButton';
 import Text from '../../atoms/Text';
+import EmailField from '../../molecules/EmailField';
 
 const LoginForm = ({onSubmit, navigation}) => {
   const styles = useStyle();
@@ -51,6 +51,7 @@ const LoginForm = ({onSubmit, navigation}) => {
           />
 
           <PasswordField
+          placeholder="Password"
             value={values.password}
             onChangeText={handleChange('password')}
             error={touched.password && errors.password}

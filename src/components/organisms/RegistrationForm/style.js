@@ -5,7 +5,6 @@ export const useStyle = () => {
   return StyleSheet.create({
     formContainer: {
       width: '100%',
-      gap: width * 0.04,
     },
   });
 };

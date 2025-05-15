@@ -1,4 +1,4 @@
-import {Image, View, ActivityIndicator, Pressable} from 'react-native';
+import {View, ActivityIndicator, Pressable} from 'react-native';
 import {useStyle} from './style';
 import Text from '../Text';
 import {COLORS} from '../../../utils/colors';
@@ -33,9 +33,7 @@ const Button = ({
           <ActivityIndicator size="small" color={COLORS.primary} />
         ) : (
           <>
-            {prefixLogo && (
-              <Image source={prefixLogo} style={styles.prefixLogo} />
-            )}
+            {prefixLogo}
             <Text
               type="medium"
               style={[styles.btnText, {color: textColor || COLORS.white}]}>

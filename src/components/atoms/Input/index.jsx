@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { View } from 'react-native';
-import { TextInput } from 'react-native-paper';
-import { useStyle } from './style';
-import { COLORS } from '../../../utils/colors';
+import {useState} from 'react';
+import {View, TextInput as RNTextInput} from 'react-native';
+import {TextInput} from 'react-native-paper';
+import {useStyle} from './style';
+import {COLORS} from '../../../utils/colors';
 import Text from '../Text';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
+import {scale} from 'react-native-size-matters';
 
 const Input = ({
   placeholder,
@@ -24,6 +25,7 @@ const Input = ({
   ...rest
 }) => {
   const [isSecure, setIsSecure] = useState(isPassword);
+  const [isFocused, setIsFocused] = useState(false);
   const styles = useStyle();
 
   const renderRightIcon = () => {
@@ -32,9 +34,9 @@ const Input = ({
         <TextInput.Icon
           icon={() => (
             <Feather
-              name={isSecure ? 'eye-off' : 'eye'}
+              name={isSecure ? 'eye' : 'eye-off'}
               size={24}
-              color={COLORS.gray}
+              color={isFocused ? COLORS.primary : COLORS.gray}
               onPress={() => setIsSecure(!isSecure)}
             />
           )}
@@ -61,7 +63,7 @@ const Input = ({
     <View style={[styles.inputContainer, style]}>
       <TextInput
         mode="outlined"
-        label={placeholder}
+        label={<Text>{placeholder}</Text>}
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
@@ -70,8 +72,7 @@ const Input = ({
         multiline={multiline}
         style={[
           styles.inputField,
-          { backgroundColor },
-          multiline && { minHeight: 100, textAlignVertical: 'top' },
+          multiline && {minHeight: 100, textAlignVertical: 'top'},
         ]}
         outlineColor={error ? COLORS.error : COLORS.darkGray}
         activeOutlineColor={COLORS.primary}
@@ -96,9 +97,24 @@ const Input = ({
           },
           roundness: 15,
         }}
+        render={props => (
+          <RNTextInput
+            {...props}
+            style={[
+              props.style,
+              {
+                fontFamily: 'WinkyRough-Regular',
+                fontSize: scale(14),
+              },
+            ]}
+          />
+        )}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         {...rest}
       />
-      {error && <Text style={styles.errorText}>{error}</Text>}
+
+      <Text style={styles.errorText}>{error ?? ''}</Text>
     </View>
   );
 };

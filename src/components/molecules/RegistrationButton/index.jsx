@@ -1,9 +1,9 @@
-import Button from '../../atoms/Button';  
+import Button from '../../atoms/Button';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 const RegistrationButton = ({onPress, loading, style}) => {
   return (
     <Button
-      style={style}
+      style={{marginTop: 10}}
       title="Sign Up"
       onPress={onPress}
       loading={loading}
@@ -12,4 +12,4 @@ const RegistrationButton = ({onPress, loading, style}) => {
   );
 };
 
-export default RegistrationButton; 
+export default RegistrationButton;

@@ -6,18 +6,15 @@ import {COLORS} from '../../../utils/colors';
 
 const EmailField = ({value, onChangeText, error, style}) => {
   return (
-    <View>
-      <Text style={Styles.emailText}>Email Address</Text>
-      <Input
-        style={style}
-        placeholder="youremail@gmail.com"
-        value={value}
-        onChangeText={onChangeText}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        error={error}
-      />
-    </View>
+    <Input
+      style={style}
+      placeholder="Email"
+      value={value}
+      onChangeText={onChangeText}
+      keyboardType="email-address"
+      autoCapitalize="none"
+      error={error}
+    />
   );
 };
 

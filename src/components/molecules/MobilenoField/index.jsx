@@ -1,26 +1,15 @@
 import Input from '../../atoms/Input';
-import Text from '../../atoms/Text';
 
-const MobilenoFields = ({
-  value,
-  onChangeText,
-  error,
-  styleInput,
-  styleText,
-}) => {
+const MobilenoFields = ({value, onChangeText, error, styleInput}) => {
   return (
-    <>
-      <Text style={styleText}>Mobile No</Text>
-      <Input
-        style={styleInput}
-        placeholder="Enter your mobile no"
-        value={value}
-        keyboardType="numeric"
-        onChangeText={onChangeText}
-        autoCapitalize="none"
-        error={error}
-      />
-    </>
+    <Input
+      style={styleInput}
+      keyboardType="numeric"
+      placeholder="Mobile No."
+      value={value}
+      onChangeText={onChangeText}
+      error={error}
+    />
   );
 };
 export default MobilenoFields;
