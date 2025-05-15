@@ -1,14 +1,14 @@
 import {View, ScrollView, KeyboardAvoidingView} from 'react-native';
 import {Formik} from 'formik';
-import FirstnameField from '../../molecules/FirstnameFields';
-import LastnameField from '../../molecules/LastnameFields';
-import EmailField from '../../molecules/EmailFields';
+import FirstnameField from '../../molecules/FirstnameField';
+import LastnameField from '../../molecules/LastnameField';
+import EmailField from '../../molecules/EmailField';
 import PasswordField from '../../molecules/PasswordFields';
 import RegistrationButton from '../../molecules/RegistrationButton';
 import {registrationValidationSchema} from '../../../utils/validationSchema';
 import {useStyle} from './style';
-import MobilenoFields from '../../molecules/MobilenoFields';
 import {COLORS} from '../../../utils/colors';
+import MobilenoFields from '../../molecules/MobilenoField';
 
 const RegistrationForm = ({onSubmit, navigation}) => {
   const styles = useStyle();
@@ -17,7 +17,7 @@ const RegistrationForm = ({onSubmit, navigation}) => {
     firstName: '',
     lastName: '',
     email: '',
-    MobilenoFields: '',
+    mobileno: '',
     password: '',
     confirmPassword: '',
   };
@@ -72,9 +72,9 @@ const RegistrationForm = ({onSubmit, navigation}) => {
               />
 
               <MobilenoFields
-                value={values.mobileNo}
-                onChangeText={handleChange('mobileNo')}
-                error={touched.mobileNo && errors.mobileNo}
+                value={values.mobileno}
+                onChangeText={handleChange('mobileno')}
+                error={touched.mobileno && errors.mobileno}
               />
 
               <PasswordField

@@ -1,5 +1,5 @@
 import AuthTemplate from '../../components/templates/AuthTemplate';
-import LoginForm from '../../components/organisms/LoginForm.jsx';
+import LoginForm from '../../components/organisms/LoginForm/index.jsx';
 import SignInHeading from '../../components/molecules/SigninHeading';
 import NoAccountText from '../../components/molecules/NoAccountText';
 

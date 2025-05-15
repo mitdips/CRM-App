@@ -10,8 +10,6 @@ import {loginValidationSchema} from '../../../utils/validationSchema';
 import GoogleButton from '../../molecules/GoogleButton';
 import GithubButton from '../../molecules/GithubButton';
 import Text from '../../atoms/Text';
-import {COLORS} from '../../../utils/colors';
-
 
 const LoginForm = ({onSubmit, navigation}) => {
   const styles = useStyle();

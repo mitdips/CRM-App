@@ -1,17 +1,12 @@
 import AuthTemplate from '../../components/templates/AuthTemplate';
-import RegistrationForm from '../../components/organisms/RegistrationForm.jsx';
-import SignInHeading from '../../components/molecules/SigninHeading';
+import RegistrationForm from '../../components/organisms/RegistrationForm/index.jsx';
+import SignUpHeading from '../../components/molecules/SignupHeading/index.jsx';
 
 const RegistrationScreen = ({navigation}) => {
-
-
   return (
     <AuthTemplate>
-      <SignInHeading />
-      <RegistrationForm 
-        navigation={navigation}
-      />
-      
+      <SignUpHeading />
+      <RegistrationForm navigation={navigation} />
     </AuthTemplate>
   );
 };
