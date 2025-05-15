@@ -1,33 +1,15 @@
-import {StyleSheet} from 'react-native';
-import {Button} from 'react-native-paper';
-import {scale} from 'react-native-size-matters';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-const GoogleButton = ({onPress, loading}) => {
+import Button from '../../atoms/Button';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+const GithubButton = ({onPress, loading,style}) => {
   return (
     <Button
-      mode="contained"
-      icon={() => (
-        <MaterialCommunityIcons name="github" size={20} color="#fff" />
-      )}
+    style={style}
+      title="Sign with Github" 
       onPress={onPress}
       loading={loading}
-      disabled={loading}
-      style={[styles.button, {backgroundColor: '#444444'}]}
-      labelStyle={styles.label}>
-      Sign in with GitHub
-    </Button>
+      postfixLogo={<AntDesign name="github" size={20} color="white" />}
+    />
   );
 };
 
-export default GoogleButton;
-
-const styles = StyleSheet.create({
-  button: {
-    borderRadius: 10,
-  },
-  label: {
-    color: '#fff',
-    fontSize: scale(12),
-  },
-});
+export default GithubButton;
