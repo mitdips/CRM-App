@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {Button} from 'react-native-paper';
 import {scale} from 'react-native-size-matters';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { width } from '../../../utils/helper';
+import {width} from '../../../utils/helper';
 
 const GithubButton = ({onPress, loading}) => {
   return (
