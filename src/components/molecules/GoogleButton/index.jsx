@@ -1,7 +1,8 @@
 import {StyleSheet} from 'react-native';
 import {Button} from 'react-native-paper';
-import { scale } from 'react-native-size-matters';
+import {scale} from 'react-native-size-matters';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { width } from '../../../utils/helper';
 
 const GoogleButton = ({onPress, loading}) => {
   return (
@@ -24,7 +25,8 @@ export default GoogleButton;
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 10,
+    borderRadius: 15,
+    paddingVertical: width * 0.01,
   },
   label: {
     color: '#fff',

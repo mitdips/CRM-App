@@ -12,8 +12,8 @@ export const useStyle = () => {
     innerContainer: {
       paddingHorizontal: width * 0.04,
       paddingVertical: width * 0.045,
-      backgroundColor: 'yellow',
-      borderRadius: 20,
+      backgroundColor: COLORS.white,
+      borderRadius: 15,
       gap: width * 0.045,
     },
   });

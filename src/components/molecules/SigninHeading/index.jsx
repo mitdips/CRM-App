@@ -1,7 +1,6 @@
-import React from 'react';
 import Text from '../../atoms/Text';
-import { COLORS } from '../../../utils/colors';
-import { scale } from 'react-native-size-matters';
+import {COLORS} from '../../../utils/colors';
+import {scale} from 'react-native-size-matters';
 
 const SignInHeading = () => {
   return (
@@ -10,7 +9,7 @@ const SignInHeading = () => {
         fontSize: scale(18),
         fontWeight: 600,
         textAlign: 'center',
-        color: COLORS.black,
+        color: COLORS.primary,
       }}>
       Sign In to Woorkroom
     </Text>

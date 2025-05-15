@@ -94,7 +94,7 @@ const Input = ({
             text: COLORS.black,
             placeholder: COLORS.gray,
           },
-          roundness: 10,
+          roundness: 15,
         }}
         {...rest}
       />

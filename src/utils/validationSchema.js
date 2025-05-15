@@ -2,11 +2,11 @@ import * as Yup from 'yup';
 
 export const loginValidationSchema = Yup.object().shape({
   email: Yup.string()
-    .email('Please enter valid email')
+    .email('Please enter valid email address')
     .required('Email is required')
     .trim(),
   password: Yup.string()
-    .min(8, 'Password must be at least 8 characters')
+    .min(6, 'Password must be at least 6 characters')
     .required('Password is required')
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
