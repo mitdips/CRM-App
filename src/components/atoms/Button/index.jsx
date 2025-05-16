@@ -30,7 +30,7 @@ const Button = ({
       ]}>
       <View style={styles.buttonRow}>
         {loading ? (
-          <ActivityIndicator size="small" color={COLORS.primary} />
+          <ActivityIndicator size="small" color={COLORS.white} />
         ) : (
           <>
             {prefixLogo}

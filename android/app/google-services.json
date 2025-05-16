@@ -9,10 +9,18 @@
       "client_info": {
         "mobilesdk_app_id": "1:522112965987:android:30a785c897c18e928c8756",
         "android_client_info": {
-          "package_name": "com.crm"
+          "package_name": "com.chatclone.app"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "522112965987-elkm8so4soo5u1a1631ovsj4s8ugh88j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chatclone.app",
+            "certificate_hash": "7f0405e6dcc61022e7403c4aa4ca10facb66283b"
+          }
+        },
         {
           "client_id": "522112965987-mc0pde2338nq7q75ks03v6pjt2svrqmi.apps.googleusercontent.com",
           "client_type": 3
@@ -49,6 +57,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "522112965987-tfsn8g92gapsopsmfb0dv4fogm4vuffv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crm",
+            "certificate_hash": "5e1cd4944a9912b557fad007916a9ddc9f19fb4d"
+          }
+        },
         {
           "client_id": "522112965987-mc0pde2338nq7q75ks03v6pjt2svrqmi.apps.googleusercontent.com",
           "client_type": 3

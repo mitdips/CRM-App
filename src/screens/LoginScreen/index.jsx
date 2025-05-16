@@ -1,7 +1,7 @@
-import AuthTemplate from '../../components/templates/AuthTemplate';
+import AuthTemplate from '../../components/templates/AuthTemplate/index.jsx';
 import LoginForm from '../../components/organisms/LoginForm/index.jsx';
-import SignInHeading from '../../components/molecules/SigninHeading';
-import NoAccountText from '../../components/molecules/NoAccountText';
+import SignInHeading from '../../components/molecules/SigninHeading/index.jsx';
+import NoAccountText from '../../components/molecules/NoAccountText/index.jsx';
 
 const LoginScreen = ({navigation}) => {
   return (

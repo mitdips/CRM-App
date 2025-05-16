@@ -34,7 +34,8 @@ local.properties
 *.apk
 *.keystore
 debug.keystore
- 
+release.keystore
+
 # node.js
 #
 node_modules/

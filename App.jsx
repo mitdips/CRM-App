@@ -1,12 +1,34 @@
 import {View} from 'react-native';
 import Text from './src/components/atoms/Text/index.jsx';
-import LoginScreen from './src/screens/LoginScreens';
+import LoginScreen from './src/screens/LoginScreen/index.jsx';
 import RegistrationScreen from './src/screens/RegistrationScreen/index.jsx';
+import {useEffect} from 'react';
+import auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const App = () => {
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '522112965987-tfsn8g92gapsopsmfb0dv4fogm4vuffv.apps.googleusercontent.com',
+    });
+  }, []);
+  // useEffect(() => {
+  //   logoutTemp();
+  // }, []);
+  const logoutTemp = async () => {
+    try {
+      await auth().signOut();
+      console.log('User signed out successfully');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>CRM App</Text>
+      {/* <Text>CRM App</Text> */}
+      <LoginScreen />
     </View>
   );
 };
