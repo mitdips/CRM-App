@@ -41,9 +41,7 @@ const Button = ({
               style={[styles.btnText, {color: textColor || COLORS.white}]}>
               {title}
             </Text>
-            {postfixLogo && (
-              <Image source={postfixLogo} style={styles.postfixLogo} />
-            )}
+            {postfixLogo}
           </>
         )}
       </View>
