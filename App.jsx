@@ -1,5 +1,7 @@
 import {View} from 'react-native';
 import Text from './src/components/atoms/Text/index.jsx';
+import LoginScreen from './src/screens/LoginScreens';
+import RegistrationScreen from './src/screens/RegistrationScreen/index.jsx';
 
 const App = () => {
   return (

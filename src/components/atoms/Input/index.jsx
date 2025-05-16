@@ -75,7 +75,7 @@ const Input = ({
           multiline && {minHeight: 100, textAlignVertical: 'top'},
         ]}
         outlineColor={error ? COLORS.error : COLORS.darkGray}
-        activeOutlineColor={COLORS.primary}
+        activeOutlineColor={error ? COLORS.error : COLORS.primary}
         left={
           prefixIcon ? (
             <TextInput.Icon
