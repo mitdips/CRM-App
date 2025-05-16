@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@react-native-firebase/app": "^22.1.0",
+    "@react-native-firebase/auth": "^22.2.0",
+    "@react-native-google-signin/google-signin": "^14.0.1",
     "formik": "^2.4.6",
     "react": "18.2.0",
     "react-native": "0.73.6",
@@ -40,3 +42,4 @@
     "node": ">=18"
   }
 }
+ 

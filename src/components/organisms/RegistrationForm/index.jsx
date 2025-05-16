@@ -1,4 +1,5 @@
-import {View} from 'react-native';
+import auth from '@react-native-firebase/auth';
+import {View, Alert} from 'react-native';
 import {Formik} from 'formik';
 import FirstnameField from '../../molecules/FirstnameField';
 import LastnameField from '../../molecules/LastnameField';
@@ -9,10 +10,10 @@ import {registrationValidationSchema} from '../../../utils/validationSchema';
 import {useStyle} from './style';
 import {COLORS} from '../../../utils/colors';
 import MobilenoFields from '../../molecules/MobilenoField';
-
-const RegistrationForm = ({onSubmit, navigation}) => {
+ 
+const RegistrationForm = ({navigation}) => {
   const styles = useStyle();
-
+ 
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -21,17 +22,49 @@ const RegistrationForm = ({onSubmit, navigation}) => {
     password: '',
     confirmPassword: '',
   };
-
+ 
   const handleRegistration = async (values, {setSubmitting}) => {
     try {
-      await onSubmit(values);
+      // Create user with email and password
+      const userCredential = await auth().createUserWithEmailAndPassword(
+        values.email,
+        values.password,
+      );
+ 
+      // Update user profile with first and last name
+      await userCredential.user.updateProfile({
+        displayName: `${values.firstName} ${values.lastName}`,
+      });
+ 
+      // Show success message
+      Alert.alert('Success', 'Registration successful!');
+ 
+      // Navigate to login screen
+      // navigation.navigate('Login');
     } catch (error) {
-      console.error('Registration error:', error);
+      let errorMessage = 'Registration failed';
+ 
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          errorMessage = 'Email address is already in use';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'Invalid email address';
+          break;
+        case 'auth/operation-not-allowed':
+          errorMessage = 'Email/password accounts are not enabled';
+          break;
+        case 'auth/weak-password':
+          errorMessage = 'Password is too weak';
+          break;
+      }
+ 
+      Alert.alert('Error', errorMessage);
     } finally {
       setSubmitting(false);
     }
   };
-
+ 
   return (
     <Formik
       initialValues={initialValues}
@@ -51,32 +84,32 @@ const RegistrationForm = ({onSubmit, navigation}) => {
             onChangeText={handleChange('firstName')}
             error={touched.firstName && errors.firstName}
           />
-
+ 
           <LastnameField
             value={values.lastName}
             onChangeText={handleChange('lastName')}
             error={touched.lastName && errors.lastName}
           />
-
+ 
           <EmailField
             value={values.email}
             onChangeText={handleChange('email')}
             error={touched.email && errors.email}
           />
-
+ 
           <MobilenoFields
             value={values.mobileNo}
             onChangeText={handleChange('mobileNo')}
             error={touched.mobileNo && errors.mobileNo}
           />
-
+ 
           <PasswordField
             placeholder="Password"
             value={values.password}
             onChangeText={handleChange('password')}
             error={touched.password && errors.password}
           />
-
+ 
           <PasswordField
             value={values.confirmPassword}
             onChangeText={handleChange('confirmPassword')}
@@ -84,12 +117,12 @@ const RegistrationForm = ({onSubmit, navigation}) => {
             styleText={{color: COLORS.gray}}
             placeholder="Confirm Password"
           />
-
+ 
           <RegistrationButton onPress={handleSubmit} loading={isSubmitting} />
         </View>
       )}
     </Formik>
   );
 };
-
+ 
 export default RegistrationForm;
