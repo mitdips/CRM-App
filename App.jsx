@@ -1,5 +1,6 @@
 import {View} from 'react-native';
 import Text from './src/components/atoms/Text';
+import AuthTemplate from './src/components/templates/AuthTemplate';
 
 const App = () => {
   return (
