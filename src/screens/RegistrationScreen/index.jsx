@@ -1,6 +1,6 @@
 import AuthTemplate from '../../components/templates/AuthTemplate';
 import RegistrationForm from '../../components/organisms/RegistrationForm';
-import SignUpHeading from '../../components/molecules/SignupHeading';
+import Heading from '../../components/molecules/Heading';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -19,7 +19,7 @@ const RegistrationScreen = ({navigation}) => {
           }}
           keyboardShouldPersistTaps="handled">
           <AuthTemplate>
-            <SignUpHeading />
+            <Heading heading='Sign Up to Woorkroom' />
             <RegistrationForm navigation={navigation} />
           </AuthTemplate>
         </ScrollView>

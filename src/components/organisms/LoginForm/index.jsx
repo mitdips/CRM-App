@@ -8,13 +8,13 @@ import {View, Alert} from 'react-native';
 import {Formik} from 'formik';
 import PasswordField from '../../molecules/PasswordFields';
 import RememberForgot from '../../molecules/RememberForget';
-import LoginButton from '../../molecules/LoginButton';
 import {useStyle} from './style';
 import {loginValidationSchema} from '../../../utils/validationSchema';
 import GoogleButton from '../../molecules/GoogleButton';
 import GithubButton from '../../molecules/GithubButton';
 import Text from '../../atoms/Text';
 import EmailField from '../../molecules/EmailField';
+import Button from '../../molecules/Button';
 
 const LoginForm = ({navigation}) => {
   const styles = useStyle();
@@ -141,7 +141,12 @@ const LoginForm = ({navigation}) => {
             onForgotPasswordPress={() => navigation.navigate('ForgotPassword')}
           />
 
-          <LoginButton onPress={handleSubmit} loading={isSubmitting} />
+          <Button
+            postfixLogo
+            onPress={handleSubmit}
+            loading={isSubmitting}
+            title="Sign In"
+          />
           <View style={styles.dividerContainer}>
             <View style={styles.dividerLine} />
             <Text style={styles.dividerText}>or</Text>

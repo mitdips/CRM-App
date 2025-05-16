@@ -2,7 +2,7 @@ import Text from '../../atoms/Text';
 import {COLORS} from '../../../utils/colors';
 import {scale} from 'react-native-size-matters';
 
-const SignUpHeading = () => {
+const Heading = ({heading}) => {
   return (
     <Text
       style={{
@@ -11,9 +11,9 @@ const SignUpHeading = () => {
         textAlign: 'center',
         color: COLORS.primary,
       }}>
-      Sign Up to Woorkroom
+   {heading}
     </Text>
   );
 };
 
-export default SignUpHeading;
+export default Heading;

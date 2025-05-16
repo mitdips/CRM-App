@@ -1,13 +1,13 @@
-import AuthTemplate from '../../components/templates/AuthTemplate/index.jsx';
-import LoginForm from '../../components/organisms/LoginForm/index.jsx';
-import SignInHeading from '../../components/molecules/SigninHeading/index.jsx';
-import NoAccountText from '../../components/molecules/NoAccountText/index.jsx';
+import AuthTemplate from '../../components/templates/AuthTemplate';
+import LoginForm from '../../components/organisms/LoginForm';
+import Heading from '../../components/molecules/Heading';
+import NoAccountText from '../../components/molecules/NoAccountText';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = () => {
   return (
     <AuthTemplate>
-      <SignInHeading />
-      <LoginForm  navigation={navigation} />
+      <Heading heading="Sign In to Woorkroom" />
+      <LoginForm />
       <NoAccountText />
     </AuthTemplate>
   );

@@ -5,11 +5,11 @@ import FirstnameField from '../../molecules/FirstnameField';
 import LastnameField from '../../molecules/LastnameField';
 import EmailField from '../../molecules/EmailField';
 import PasswordField from '../../molecules/PasswordFields';
-import RegistrationButton from '../../molecules/RegistrationButton';
 import {registrationValidationSchema} from '../../../utils/validationSchema';
 import {useStyle} from './style';
 import {COLORS} from '../../../utils/colors';
 import MobilenoFields from '../../molecules/MobilenoField';
+import Button from '../../molecules/Button';
 
 const RegistrationForm = ({navigation}) => {
   const styles = useStyle();
@@ -118,7 +118,12 @@ const RegistrationForm = ({navigation}) => {
             placeholder="Confirm Password"
           />
 
-          <RegistrationButton onPress={handleSubmit} loading={isSubmitting} />
+          <Button
+            postfixLogo
+            onPress={handleSubmit}
+            loading={isSubmitting}
+            title="Sign Up"
+          />
         </View>
       )}
     </Formik>
