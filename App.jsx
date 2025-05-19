@@ -1,7 +1,7 @@
 import {Platform, View} from 'react-native';
 import Text from './src/components/atoms/Text';
 import { useEffect } from 'react';
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from 'react-native-splash-screen';
 const App = () => {
 
   return (
@@ -16,5 +16,4 @@ const App = () => {
     </View>
   );
 };
-
 export default App;
