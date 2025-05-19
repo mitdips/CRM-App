@@ -12,6 +12,8 @@ const App = () => {
     GoogleSignin.configure({
       webClientId:
         '522112965987-tfsn8g92gapsopsmfb0dv4fogm4vuffv.apps.googleusercontent.com',
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+      forceCodeForRefreshToken: false,
     });
   }, []);
   // useEffect(() => {

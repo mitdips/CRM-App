@@ -58,11 +58,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "522112965987-tfsn8g92gapsopsmfb0dv4fogm4vuffv.apps.googleusercontent.com",
+          "client_id": "522112965987-kbm141u1n2rinleu9ud0g9pu3hn9aobt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.crm",
-            "certificate_hash": "5e1cd4944a9912b557fad007916a9ddc9f19fb4d"
+            "certificate_hash": "8b63b2fb01d6ec7621126811cd3978a2b767301f"
           }
         },
         {
