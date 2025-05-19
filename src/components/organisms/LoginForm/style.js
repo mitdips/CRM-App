@@ -1,5 +1,4 @@
 import {StyleSheet} from 'react-native';
-import {width} from '../../../utils/helper';
 import { COLORS } from '../../../utils/colors';
 import { scale } from 'react-native-size-matters';
 
@@ -7,7 +6,7 @@ export const useStyle = () => {
   return StyleSheet.create({
     formContainer: {
       width: '100%',
-      gap: width * 0.04,
+      gap: scale(14),
     },
     dividerContainer: {
       flexDirection: 'row',
@@ -19,7 +18,7 @@ export const useStyle = () => {
       backgroundColor: COLORS.gray,
     },
     dividerText: {
-      paddingHorizontal: width * 0.03,
+      paddingHorizontal: scale(10),
       color: COLORS.gray,
       fontSize: scale(16),
     },

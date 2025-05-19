@@ -1,13 +1,10 @@
-import { StyleSheet } from 'react-native';
-import { scale } from 'react-native-size-matters';
-import { width } from '../../../utils/helper';
-import { COLORS } from '../../../utils/colors';
-
+import {StyleSheet} from 'react-native';
+import {scale} from 'react-native-size-matters';
 export const useStyle = () => {
   return StyleSheet.create({
     btnContainer: {
       width: '100%',
-      paddingVertical: width * 0.03,
+      paddingVertical: scale(12),
       alignSelf: 'center',
       borderRadius: 15,
       elevation: 2,

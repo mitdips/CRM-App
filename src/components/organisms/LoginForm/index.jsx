@@ -1,4 +1,4 @@
-import auth from '@react-native-firebase/auth';
+import { auth,getAuth, signInWithCredential, GithubAuthProvider } from '@react-native-firebase/auth';
 import {
   GoogleSignin,
   statusCodes,
@@ -20,7 +20,8 @@ const LoginForm = ({navigation}) => {
   const styles = useStyle();
   const [remember, setRemember] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-
+  const [State, setState] = useState(null);
+  const [githubLoading, setGithubLoading] = useState(false);
   const initialValues = {
     email: '',
     password: '',
@@ -68,43 +69,65 @@ const LoginForm = ({navigation}) => {
       setSubmitting(false);
     }
   };
-
-  const handleGoogleSignIn = async () => {
+  async function signInWithGitHub(accessToken) {
     try {
-      setGoogleLoading(true);
-      console.log('Starting Google Sign-In');
+      const credential = GithubAuthProvider.credential(accessToken);
+      const userCredential = await signInWithCredential(getAuth(), credential);
+      // Handle successful sign-in (e.g., navigate to the app's main screen)
+      console.log('User signed in with GitHub!', userCredential.user);
+    } catch (error) {
+      // Handle errors (e.g., display an error message)
+      console.log('GitHub sign-in error:', error);
+    }
+  }
+  const handleGoogleSignIn = async () => {
+    console.log('Step 1: Starting Google Sign-In process');
+
+    try {
+      console.log('Step 2: Checking Play Services availability');
 
       await GoogleSignin.hasPlayServices();
-      console.log('Play services available');
 
-      const {idToken} = await GoogleSignin.signIn();
-      console.log('Google sign-in success, idToken:', idToken);
+      console.log('Step 3: Play Services check successful');
 
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      const userCredential = await auth().signInWithCredential(
-        googleCredential,
-      );
+      console.log('Step 4: Initiating Google Sign-In');
 
-      console.log('Firebase sign-in success:', userCredential.user.email);
-      Alert.alert('Success', 'Google Sign-In successful!');
-      // navigation.navigate('Home');
-    } catch (error) {
-      console.log('Google Sign-In error:', error);
-      let errorMessage = 'Google Sign-In failed';
+      const response = await GoogleSignin.signIn();
 
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        errorMessage = 'Sign in cancelled';
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        errorMessage = 'Sign in already in progress';
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        errorMessage = 'Play services not available';
-      } else if (error.message) {
-        errorMessage = error.message;
+      console.log('Step 5: Google Sign-In response received:', response);
+
+      if (isSuccessResponse(response)) {
+        console.log('Step 6: Sign-In successful, updating user info');
+
+        setState({userInfo: response.data});
+
+        console.log('Step 7: User info updated successfully');
+      } else {
+        console.log('Step 6: Sign-In was cancelled by user');
       }
+    } catch (error) {
+      console.log('Error occurred during Google Sign-In:', error);
 
-      Alert.alert('Error', errorMessage);
-    } finally {
-      setGoogleLoading(false);
+      if (isErrorWithCode(error)) {
+        console.log('Error code:', error.code);
+
+        switch (error.code) {
+          case statusCodes.IN_PROGRESS:
+            console.log('Step X: Operation already in progress');
+
+            break;
+
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            console.log('Step X: Play Services not available or outdated');
+
+            break;
+
+          default:
+            console.log('Step X: Other Google Sign-In error occurred');
+        }
+      } else {
+        console.log('Step X: Non-Google Sign-In related error occurred');
+      }
     }
   };
 
@@ -157,7 +180,11 @@ const LoginForm = ({navigation}) => {
             loading={googleLoading}
             disabled={googleLoading}
           />
-          <GithubButton />
+          <GithubButton 
+          onPress={signInWithGitHub}
+          loading={githubLoading}
+          disabled={githubLoading}
+          />
         </View>
       )}
     </Formik>
