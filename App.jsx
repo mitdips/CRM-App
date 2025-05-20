@@ -13,5 +13,4 @@ const App = () => {
 
   return <StackNavigator />;
 };
-
 export default App;
