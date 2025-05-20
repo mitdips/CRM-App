@@ -1,5 +1,4 @@
 import {StyleSheet} from 'react-native';
-import {width} from '../../../utils/helper';
 import {COLORS} from '../../../utils/colors';
 import {scale} from 'react-native-size-matters';
 export const useStyle = () => {
@@ -10,11 +9,11 @@ export const useStyle = () => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: width * 0.05,
+      gap: scale(14),
     },
     logo: {
-      width: width * 0.13,
-      height: width * 0.13,
+      width: scale(45),
+      height: scale(45),
       resizeMode: 'contain',
     },
     logoText: {

@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
 import {scale} from 'react-native-size-matters';
-import {width} from '../../../utils/helper';
 import {COLORS} from '../../../utils/colors';
 export const useStyle = () => {
   return StyleSheet.create({

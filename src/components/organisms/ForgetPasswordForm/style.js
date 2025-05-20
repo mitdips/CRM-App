@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {width} from '../../../utils/helper';
+import { scale } from 'react-native-size-matters';
 
 export const useStyle = () => {
   return StyleSheet.create({
@@ -8,11 +9,11 @@ export const useStyle = () => {
     },
     backButton: {
       alignSelf: 'flex-start',
-      marginBottom: width * 0.04,
+      marginTop: scale(10),
     },
     formContainer: {
       width: '100%',
-      gap: width * 0.04,
+      gap: scale(10),
     },
   });
 };
