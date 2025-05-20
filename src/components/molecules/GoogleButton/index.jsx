@@ -3,7 +3,8 @@ import {Button} from 'react-native-paper';
 import {scale} from 'react-native-size-matters';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {width} from '../../../utils/helper';
- 
+import {COLORS} from '../../../utils/colors';
+
 const GoogleButton = ({onPress, loading}) => {
   return (
     <Button
@@ -12,7 +13,7 @@ const GoogleButton = ({onPress, loading}) => {
         <MaterialCommunityIcons
           name="google"
           size={20}
-          color={loading ? '#rgba(255,255,255,0.5)' : '#fff'}
+          color={loading ? COLORS.white50 : COLORS.white}
         />
       )}
       onPress={onPress}
@@ -21,30 +22,28 @@ const GoogleButton = ({onPress, loading}) => {
       style={[
         styles.button,
         {
-          backgroundColor: loading ? '#ff443380' : '#FF4433',
-          opacity: loading ? 0.8 : 1
-        }
+          backgroundColor: loading ? COLORS.googleLoadingBg : COLORS.google,
+          opacity: loading ? 0.8 : 1,
+        },
       ]}
       labelStyle={[
         styles.label,
-        {color: loading ? '#rgba(255,255,255,0.5)' : '#fff'}
+        {color: loading ? COLORS.white50 : COLORS.white},
       ]}>
       Sign in with Google
     </Button>
   );
 };
- 
+
 export default GoogleButton;
- 
+
 const styles = StyleSheet.create({
   button: {
     borderRadius: 15,
     paddingVertical: width * 0.01,
   },
   label: {
-    color: '#fff',
+    color: COLORS.white,
     fontSize: scale(12),
   },
 });
- 
- 

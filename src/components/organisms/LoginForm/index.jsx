@@ -15,11 +15,17 @@ import GithubButton from '../../molecules/GithubButton';
 import Text from '../../atoms/Text';
 import EmailField from '../../molecules/EmailField';
 import Button from '../../molecules/Button';
-
+import {
+  getAuth,
+  signInWithPopup,
+  linkWithPopup,
+  OAuthProvider,
+} from '@react-native-firebase/auth';
 const LoginForm = ({navigation}) => {
   const styles = useStyle();
   const [remember, setRemember] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [githubLoading, setGithubLoading] = useState(false);
 
   const initialValues = {
     email: '',
@@ -70,41 +76,97 @@ const LoginForm = ({navigation}) => {
   };
 
   const handleGoogleSignIn = async () => {
+    console.log('Step 1: Starting Google Sign-In process');
     try {
-      setGoogleLoading(true);
-      console.log('Starting Google Sign-In');
-
+      console.log('Step 2: Checking Play Services availability');
       await GoogleSignin.hasPlayServices();
-      console.log('Play services available');
+      console.log('Step 3: Play Services check successful');
 
-      const {idToken} = await GoogleSignin.signIn();
-      console.log('Google sign-in success, idToken:', idToken);
+      console.log('Step 4: Initiating Google Sign-In');
+      const response = await GoogleSignin.signIn();
+      console.log('Step 5: Google Sign-In response received:', response);
 
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      const userCredential = await auth().signInWithCredential(
-        googleCredential,
-      );
-
-      console.log('Firebase sign-in success:', userCredential.user.email);
-      Alert.alert('Success', 'Google Sign-In successful!');
-      // navigation.navigate('Home');
+      if (response) {
+        console.log('Step 6: Sign-In successful, updating user info');
+        setState({userInfo: response.data});
+        console.log('Step 7: User info updated successfully');
+      } else {
+        console.log('Step 6: Sign-In was cancelled by user');
+      }
     } catch (error) {
-      console.log('Google Sign-In error:', error);
-      let errorMessage = 'Google Sign-In failed';
+      console.log('Error occurred during Google Sign-In:', error);
+      if (error) {
+        console.log('Error code:', error.code);
+        switch (error.code) {
+          case statusCodes.IN_PROGRESS:
+            console.log('Step X: Operation already in progress');
+            break;
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            console.log('Step X: Play Services not available or outdated');
+            break;
+          default:
+            console.log('Step X: Other Google Sign-In error occurred');
+        }
+      } else {
+        console.log('Step X: Non-Google Sign-In related error occurred');
+      }
+    }
+  };
 
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        errorMessage = 'Sign in cancelled';
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        errorMessage = 'Sign in already in progress';
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        errorMessage = 'Play services not available';
-      } else if (error.message) {
-        errorMessage = error.message;
+  const handleGithubSignIn = async () => {
+    try {
+      setGithubLoading(true);
+      console.log('Step 1: Starting GitHub Sign-In');
+      // Create a new OAuth provider for GitHub
+      const provider = new OAuthProvider('github.com');
+      const auth = getAuth();
+      linkWithPopup(auth.currentUser, provider);
+
+      console.log('Step 2: Initiating GitHub Sign-In');
+      // const result = await auth().signInWithProvider(provider);
+      const result = await auth().signInWithCredential(provider);
+      console.log('Step 3: GitHub Sign-In successful');
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
+      const user = result.user;
+
+      console.log('Step 4: User info received');
+      console.log('Access Token:', accessToken);
+      console.log('ID Token:', idToken);
+      console.log('GitHub User:', user.email);
+
+      Alert.alert('Success', 'GitHub Sign-In successful!');
+      // Navigation will be handled automatically by the StackNavigator
+      // based on the auth state change
+    } catch (error) {
+      console.log('GitHub Sign-In error:', error);
+      let errorMessage = 'GitHub Sign-In failed';
+
+      switch (error.code) {
+        case 'auth/account-exists-with-different-credential':
+          errorMessage =
+            'An account already exists with the same email address but different sign-in credentials';
+          break;
+        case 'auth/popup-closed-by-user':
+          errorMessage = 'Sign-in was cancelled';
+          break;
+        case 'auth/popup-blocked':
+          errorMessage = 'Sign-in popup was blocked by the browser';
+          break;
+        case 'auth/cancelled-popup-request':
+          errorMessage = 'Sign-in was cancelled';
+          break;
+        case 'auth/network-request-failed':
+          errorMessage = 'Network error occurred';
+          break;
+        default:
+          errorMessage = error.message || 'An unknown error occurred';
       }
 
       Alert.alert('Error', errorMessage);
     } finally {
-      setGoogleLoading(false);
+      setGithubLoading(false);
     }
   };
 
@@ -157,7 +219,11 @@ const LoginForm = ({navigation}) => {
             loading={googleLoading}
             disabled={googleLoading}
           />
-          <GithubButton />
+          <GithubButton
+            onPress={handleGithubSignIn}
+            loading={githubLoading}
+            disabled={githubLoading}
+          />
         </View>
       )}
     </Formik>
