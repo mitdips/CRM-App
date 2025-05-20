@@ -6,7 +6,8 @@ const App = () => {
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
-        '522112965987-tfsn8g92gapsopsmfb0dv4fogm4vuffv.apps.googleusercontent.com',
+        '522112965987-tldhg24l07j2eoqqe9jpdeo5phdt98ss.apps.googleusercontent.com',
+        scopes: ['https://www.googleapis.com/auth/drive.readonly'],
     });
   }, []);
 

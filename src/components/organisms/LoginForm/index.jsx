@@ -1,13 +1,9 @@
 import {
-  auth,
+  GoogleAuthProvider,
   getAuth,
   signInWithCredential,
-  GithubAuthProvider,
 } from '@react-native-firebase/auth';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useState} from 'react';
 import {View, Alert} from 'react-native';
 import {Formik} from 'formik';
@@ -20,12 +16,7 @@ import GithubButton from '../../molecules/GithubButton';
 import Text from '../../atoms/Text';
 import EmailField from '../../molecules/EmailField';
 import Button from '../../molecules/Button';
-import {
-  getAuth,
-  signInWithPopup,
-  linkWithPopup,
-  OAuthProvider,
-} from '@react-native-firebase/auth';
+
 const LoginForm = ({navigation}) => {
   const styles = useStyle();
   const [remember, setRemember] = useState(false);
@@ -79,50 +70,100 @@ const LoginForm = ({navigation}) => {
       setSubmitting(false);
     }
   };
-  async function signInWithGitHub(accessToken) {
-    try {
-      const credential = GithubAuthProvider.credential(accessToken);
-      const userCredential = await signInWithCredential(getAuth(), credential);
-      // Handle successful sign-in (e.g., navigate to the app's main screen)
-      console.log('User signed in with GitHub!', userCredential.user);
-    } catch (error) {
-      // Handle errors (e.g., display an error message)
-      console.log('GitHub sign-in error:', error);
-    }
-  }
+
   const handleGoogleSignIn = async () => {
     try {
-      console.log('Step 1: Starting Google Sign-In process');
-      console.log('Step 2: Checking Play Services availability');
-      await GoogleSignin.hasPlayServices();
-      console.log('Step 3: Play Services check successful');
-      console.log('Step 4: Initiating Google Sign-In');
-      const response = await GoogleSignin.signIn();
-      console.log('Step 5: Google Sign-In response received:', response);
-      if (isSuccessResponse(response)) {
-        console.log('Step 6: Sign-In successful, updating user info');
-        setState({userInfo: response.data});
-        console.log('Step 7: User info updated successfully');
-      } else {
-        console.log('Step 6: Sign-In was cancelled by user');
+      setGoogleLoading(true);
+      console.log('Checking if device has Google Play Services...');
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+      console.log('Google Play Services available.');
+      console.log('Starting Google sign-in...');
+      const signInResult = await GoogleSignin.signIn();
+      console.log('Sign-in result:', signInResult);
+      // Try new result structure (v13+)
+      let idToken = signInResult?.data?.idToken;
+      // Fallback for older versions
+      if (!idToken) {
+        console.log('Falling back to old idToken structure...');
+        idToken = signInResult?.idToken;
       }
+      if (!idToken) {
+        console.error('❌ No ID token found in Google sign-in result');
+        throw new Error('No ID token found');
+      }
+      console.log('ID Token retrieved:', idToken);
+      // Create a Google credential with the token
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+      console.log('Google credential created:', googleCredential);
+      // Sign in with the credential
+      const authResult = await signInWithCredential(
+        getAuth(),
+        googleCredential,
+      );
+      console.log('✅ Firebase sign-in successful:', authResult);
+      return authResult;
     } catch (error) {
-      console.log('Error occurred during Google Sign-In:', error);
-      if (isErrorWithCode(error)) {
-        console.log('Error code:', error.code);
-        switch (error.code) {
-          case statusCodes.IN_PROGRESS:
-            console.log('Step X: Operation already in progress');
-            break;
-          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-            console.log('Step X: Play Services not available or outdated');
-            break;
-          default:
-            console.log('Step X: Other Google Sign-In error occurred');
-        }
-      } else {
-        console.log('Step X: Non-Google Sign-In related error occurred');
+      console.error('❌ Google sign-in failed:', error);
+      throw error;
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
+  const handleGithubSignIn = async () => {
+    try {
+      setGithubLoading(true);
+      console.log('Step 1: Starting GitHub Sign-In');
+      // Create a new OAuth provider for GitHub
+      const provider = new OAuthProvider('github.com');
+      const auth = getAuth();
+      linkWithPopup(auth.currentUser, provider);
+
+      console.log('Step 2: Initiating GitHub Sign-In');
+      // const result = await auth().signInWithProvider(provider);
+      const result = await auth().signInWithCredential(provider);
+      console.log('Step 3: GitHub Sign-In successful');
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
+      const user = result.user;
+
+      console.log('Step 4: User info received');
+      console.log('Access Token:', accessToken);
+      console.log('ID Token:', idToken);
+      console.log('GitHub User:', user.email);
+
+      Alert.alert('Success', 'GitHub Sign-In successful!');
+      // Navigation will be handled automatically by the StackNavigator
+      // based on the auth state change
+    } catch (error) {
+      console.log('GitHub Sign-In error:', error);
+      let errorMessage = 'GitHub Sign-In failed';
+
+      switch (error.code) {
+        case 'auth/account-exists-with-different-credential':
+          errorMessage =
+            'An account already exists with the same email address but different sign-in credentials';
+          break;
+        case 'auth/popup-closed-by-user':
+          errorMessage = 'Sign-in was cancelled';
+          break;
+        case 'auth/popup-blocked':
+          errorMessage = 'Sign-in popup was blocked by the browser';
+          break;
+        case 'auth/cancelled-popup-request':
+          errorMessage = 'Sign-in was cancelled';
+          break;
+        case 'auth/network-request-failed':
+          errorMessage = 'Network error occurred';
+          break;
+        default:
+          errorMessage = error.message || 'An unknown error occurred';
       }
+
+      Alert.alert('Error', errorMessage);
+    } finally {
+      setGithubLoading(false);
     }
   };
 
@@ -176,7 +217,7 @@ const LoginForm = ({navigation}) => {
             disabled={googleLoading}
           />
           <GithubButton
-            onPress={signInWithGitHub}
+            onPress={handleGithubSignIn}
             loading={githubLoading}
             disabled={githubLoading}
           />

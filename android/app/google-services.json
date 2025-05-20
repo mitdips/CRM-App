@@ -7,62 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:522112965987:android:30a785c897c18e928c8756",
-        "android_client_info": {
-          "package_name": "com.chatclone.app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "522112965987-elkm8so4soo5u1a1631ovsj4s8ugh88j.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.chatclone.app",
-            "certificate_hash": "7f0405e6dcc61022e7403c4aa4ca10facb66283b"
-          }
-        },
-        {
-          "client_id": "522112965987-mc0pde2338nq7q75ks03v6pjt2svrqmi.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCwmnOpKla-J4T6epUjXJIr9rO78ANb-OM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "522112965987-mc0pde2338nq7q75ks03v6pjt2svrqmi.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "522112965987-h376lka0l59u1skm5sm1g67cckq80kua.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.demoitpath"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:522112965987:android:6638d5ad0b6aecb58c8756",
+        "mobilesdk_app_id": "1:522112965987:android:1a6378f5da90478b8c8756",
         "android_client_info": {
           "package_name": "com.crm"
         }
       },
       "oauth_client": [
         {
-          "client_id": "522112965987-kbm141u1n2rinleu9ud0g9pu3hn9aobt.apps.googleusercontent.com",
+          "client_id": "522112965987-30dsaj8fnrhl12irbiklvkmnl3je451q.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.crm",
-            "certificate_hash": "8b63b2fb01d6ec7621126811cd3978a2b767301f"
+            "certificate_hash": "d17268c122c4df10bd8a24d1c7fdf6a5ebe50f8b"
           }
         },
         {
@@ -79,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "522112965987-mc0pde2338nq7q75ks03v6pjt2svrqmi.apps.googleusercontent.com",
+              "client_id": "522112965987-06g7pvn9sjaeinjnj53ov9l08g3cfvch.apps.googleusercontent.com",
               "client_type": 3
             },
             {
