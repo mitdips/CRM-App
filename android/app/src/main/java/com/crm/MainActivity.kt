@@ -24,4 +24,5 @@ override fun onCreate(savedInstanceState: Bundle?) {
    */
   override fun createReactActivityDelegate(): ReactActivityDelegate =
       DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
+      
 }
