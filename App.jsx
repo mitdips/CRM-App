@@ -8,7 +8,7 @@ const App = () => {
     SplashScreen.hide();
     GoogleSignin.configure({
       webClientId:
-        '522112965987-tldhg24l07j2eoqqe9jpdeo5phdt98ss.apps.googleusercontent.com',
+        "522112965987-mc0pde2338nq7q75ks03v6pjt2svrqmi.apps.googleusercontent.com",
         scopes: ['https://www.googleapis.com/auth/drive.readonly'],
     });
   }, []);

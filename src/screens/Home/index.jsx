@@ -2,12 +2,12 @@ import React from 'react';
 import {View} from 'react-native';
 import Text from '../../components/atoms/Text';
 
-const Index = () => {
+const HomeScreen = () => {
   return (
-    <View>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Home</Text>
     </View>
   );
 };
 
-export default Index;
+export default HomeScreen;
