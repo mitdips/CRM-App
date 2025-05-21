@@ -76,3 +76,6 @@ bun.lock
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# extra
+useTemporarySignOut.js

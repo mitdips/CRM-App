@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import StackNavigator from './src/navigations/StackNavigation';
+import useTemporarySignOut from './useTemporarySignOut';
 
 const App = () => {
   useEffect(() => {
@@ -10,8 +11,8 @@ const App = () => {
         scopes: ['https://www.googleapis.com/auth/drive.readonly'],
     });
   }, []);
+  // useTemporarySignOut();
 
   return <StackNavigator />;
 };
-
 export default App;
