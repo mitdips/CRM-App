@@ -4,8 +4,10 @@ import {Checkbox} from 'react-native-paper';
 import {COLORS} from '../../../utils/colors';
 import {StyleSheet} from 'react-native';
 import {scale} from 'react-native-size-matters';
+import {useNavigation} from '@react-navigation/native';
 
-const RememberForgot = ({remember, onCheckboxPress, onForgotPasswordPress}) => {
+const RememberForgot = ({remember, onCheckboxPress}) => {
+  const navigation = useNavigation();
   return (
     <View style={Styles.rememberForgotView}>
       <Checkbox.Item
@@ -19,8 +21,15 @@ const RememberForgot = ({remember, onCheckboxPress, onForgotPasswordPress}) => {
         }}
         status={remember ? 'checked' : 'unchecked'}
         onPress={onCheckboxPress}
+        color={COLORS.primary}
       />
-      <Pressable onPress={onForgotPasswordPress}>
+      <Pressable
+        onPress={() => navigation.navigate('ForgotPassword')}
+        style={({pressed}) => [
+          {
+            opacity: pressed ? 0.5 : 1,
+          },
+        ]}>
         <Text style={Styles.forgotpassText}>Forgot Password?</Text>
       </Pressable>
     </View>

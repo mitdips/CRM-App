@@ -10,6 +10,7 @@ import {useStyle} from './style';
 import {COLORS} from '../../../utils/colors';
 import MobilenoFields from '../../molecules/MobilenoField';
 import Button from '../../molecules/Button';
+import BackButton from '../../molecules/BackButton';
 
 const RegistrationForm = ({navigation}) => {
   const styles = useStyle();
@@ -66,67 +67,67 @@ const RegistrationForm = ({navigation}) => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={registrationValidationSchema}
-      onSubmit={handleRegistration}>
-      {({
-        handleChange,
-        handleSubmit,
-        values,
-        errors,
-        touched,
-        isSubmitting,
-      }) => (
-        <View style={styles.formContainer}>
-          <FirstnameField
-            value={values.firstName}
-            onChangeText={handleChange('firstName')}
-            error={touched.firstName && errors.firstName}
-          />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={registrationValidationSchema}
+        onSubmit={handleRegistration}>
+        {({
+          handleChange,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          isSubmitting,
+        }) => (
+          <View style={styles.formContainer}>
+            <FirstnameField
+              value={values.firstName}
+              onChangeText={handleChange('firstName')}
+              error={touched.firstName && errors.firstName}
+            />
 
-          <LastnameField
-            value={values.lastName}
-            onChangeText={handleChange('lastName')}
-            error={touched.lastName && errors.lastName}
-          />
+            <LastnameField
+              value={values.lastName}
+              onChangeText={handleChange('lastName')}
+              error={touched.lastName && errors.lastName}
+            />
 
-          <EmailField
-            value={values.email}
-            onChangeText={handleChange('email')}
-            error={touched.email && errors.email}
-          />
+            <EmailField
+              value={values.email}
+              onChangeText={handleChange('email')}
+              error={touched.email && errors.email}
+            />
 
-          <MobilenoFields
-            value={values.mobileNo}
-            onChangeText={handleChange('mobileNo')}
-            error={touched.mobileNo && errors.mobileNo}
-          />
+            <MobilenoFields
+              value={values.mobileNo}
+              onChangeText={handleChange('mobileNo')}
+              error={touched.mobileNo && errors.mobileNo}
+            />
 
-          <PasswordField
-            placeholder="Password"
-            value={values.password}
-            onChangeText={handleChange('password')}
-            error={touched.password && errors.password}
-          />
+            <PasswordField
+              placeholder="Password"
+              value={values.password}
+              onChangeText={handleChange('password')}
+              error={touched.password && errors.password}
+            />
 
-          <PasswordField
-            value={values.confirmPassword}
-            onChangeText={handleChange('confirmPassword')}
-            error={touched.confirmPassword && errors.confirmPassword}
-            styleText={{color: COLORS.gray}}
-            placeholder="Confirm Password"
-          />
+            <PasswordField
+              value={values.confirmPassword}
+              onChangeText={handleChange('confirmPassword')}
+              error={touched.confirmPassword && errors.confirmPassword}
+              styleText={{color: COLORS.gray}}
+              placeholder="Confirm Password"
+            />
 
-          <Button
-            postfixLogo
-            onPress={handleSubmit}
-            loading={isSubmitting}
-            title="Sign Up"
-          />
-        </View>
-      )}
-    </Formik>
+            <Button
+              postfixLogo
+              onPress={handleSubmit}
+              loading={isSubmitting}
+              title="Sign Up"
+            />
+          </View>
+        )}
+      </Formik>
   );
 };
 

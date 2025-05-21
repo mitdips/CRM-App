@@ -4,10 +4,10 @@ import Heading from '../../components/molecules/Heading';
 import {
   Keyboard,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import BackButton from '../../components/molecules/BackButton';
 
 const RegistrationScreen = ({navigation}) => {
   return (
@@ -19,7 +19,8 @@ const RegistrationScreen = ({navigation}) => {
           }}
           keyboardShouldPersistTaps="handled">
           <AuthTemplate>
-            <Heading heading='Sign Up to Woorkroom' />
+            <BackButton />
+            <Heading heading="Sign Up to Woorkroom" />
             <RegistrationForm navigation={navigation} />
           </AuthTemplate>
         </ScrollView>
