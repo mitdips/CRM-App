@@ -1,6 +1,6 @@
 import Button from '../../atoms/Button';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-const MoleculeButton = ({onPress, loading, style, title}) => {
+const Button = ({onPress, loading, style, title}) => {
   return (
     <Button
       style={style}
@@ -12,4 +12,4 @@ const MoleculeButton = ({onPress, loading, style, title}) => {
   );
 };
 
-export default MoleculeButton;
+export default Button;
