@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import StackNavigator from './src/navigations/StackNavigation';
-import useTemporarySignOut from './useTemporarySignOut';
+// import useTemporarySignOut from './useTemporarySignOut';
 
 const App = () => {
   useEffect(() => {
