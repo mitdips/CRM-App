@@ -11,10 +11,12 @@ import {COLORS} from '../../../utils/colors';
 import MobilenoFields from '../../molecules/MobilenoField';
 import Button from '../../molecules/Button';
 import BackButton from '../../molecules/BackButton';
+import {useNavigation} from '@react-navigation/native';
 
-const RegistrationForm = ({navigation}) => {
-  const styles = useStyle();
+const styles = useStyle();
 
+const RegistrationForm = () => {
+  const navigation = useNavigation();
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -26,25 +28,17 @@ const RegistrationForm = ({navigation}) => {
 
   const handleRegistration = async (values, {setSubmitting}) => {
     try {
-      // Create user with email and password
       const userCredential = await auth().createUserWithEmailAndPassword(
         values.email,
         values.password,
       );
-
-      // Update user profile with first and last name
       await userCredential.user.updateProfile({
         displayName: `${values.firstName} ${values.lastName}`,
       });
-
-      // Show success message
       Alert.alert('Success', 'Registration successful!');
-
-      // Navigate to login screen
-      // navigation.navigate('Login');
+      navigation.navigate('Login');
     } catch (error) {
       let errorMessage = 'Registration failed';
-
       switch (error.code) {
         case 'auth/email-already-in-use':
           errorMessage = 'Email address is already in use';
@@ -59,7 +53,6 @@ const RegistrationForm = ({navigation}) => {
           errorMessage = 'Password is too weak';
           break;
       }
-
       Alert.alert('Error', errorMessage);
     } finally {
       setSubmitting(false);
@@ -67,67 +60,67 @@ const RegistrationForm = ({navigation}) => {
   };
 
   return (
-      <Formik
-        initialValues={initialValues}
-        validationSchema={registrationValidationSchema}
-        onSubmit={handleRegistration}>
-        {({
-          handleChange,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-          isSubmitting,
-        }) => (
-          <View style={styles.formContainer}>
-            <FirstnameField
-              value={values.firstName}
-              onChangeText={handleChange('firstName')}
-              error={touched.firstName && errors.firstName}
-            />
+    <Formik
+      initialValues={initialValues}
+      validationSchema={registrationValidationSchema}
+      onSubmit={handleRegistration}>
+      {({
+        handleChange,
+        handleSubmit,
+        values,
+        errors,
+        touched,
+        isSubmitting,
+      }) => (
+        <View style={styles.formContainer}>
+          <FirstnameField
+            value={values.firstName}
+            onChangeText={handleChange('firstName')}
+            error={touched.firstName && errors.firstName}
+          />
 
-            <LastnameField
-              value={values.lastName}
-              onChangeText={handleChange('lastName')}
-              error={touched.lastName && errors.lastName}
-            />
+          <LastnameField
+            value={values.lastName}
+            onChangeText={handleChange('lastName')}
+            error={touched.lastName && errors.lastName}
+          />
 
-            <EmailField
-              value={values.email}
-              onChangeText={handleChange('email')}
-              error={touched.email && errors.email}
-            />
+          <EmailField
+            value={values.email}
+            onChangeText={handleChange('email')}
+            error={touched.email && errors.email}
+          />
 
-            <MobilenoFields
-              value={values.mobileNo}
-              onChangeText={handleChange('mobileNo')}
-              error={touched.mobileNo && errors.mobileNo}
-            />
+          <MobilenoFields
+            value={values.mobileNo}
+            onChangeText={handleChange('mobileNo')}
+            error={touched.mobileNo && errors.mobileNo}
+          />
 
-            <PasswordField
-              placeholder="Password"
-              value={values.password}
-              onChangeText={handleChange('password')}
-              error={touched.password && errors.password}
-            />
+          <PasswordField
+            placeholder="Password"
+            value={values.password}
+            onChangeText={handleChange('password')}
+            error={touched.password && errors.password}
+          />
 
-            <PasswordField
-              value={values.confirmPassword}
-              onChangeText={handleChange('confirmPassword')}
-              error={touched.confirmPassword && errors.confirmPassword}
-              styleText={{color: COLORS.gray}}
-              placeholder="Confirm Password"
-            />
+          <PasswordField
+            value={values.confirmPassword}
+            onChangeText={handleChange('confirmPassword')}
+            error={touched.confirmPassword && errors.confirmPassword}
+            styleText={{color: COLORS.gray}}
+            placeholder="Confirm Password"
+          />
 
-            <Button
-              postfixLogo
-              onPress={handleSubmit}
-              loading={isSubmitting}
-              title="Sign Up"
-            />
-          </View>
-        )}
-      </Formik>
+          <Button
+            postfixLogo
+            onPress={handleSubmit}
+            loading={isSubmitting}
+            title="Sign Up"
+          />
+        </View>
+      )}
+    </Formik>
   );
 };
 
