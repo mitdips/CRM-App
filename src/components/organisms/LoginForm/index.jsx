@@ -17,13 +17,22 @@ import EmailField from '../../molecules/EmailField';
 import Button from '../../molecules/Button';
 import {useDispatch} from 'react-redux';
 import {setUserData} from '../../../redux/slices/AuthSlice';
-
+import { Snackbar } from 'react-native-paper';
 const styles = useStyle();
 
 const LoginForm = ({navigation}) => {
   const dispatch = useDispatch();
   const [remember, setRemember] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  // Snackbar state
+  const [visible, setVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const showSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setVisible(true);
+  };
   const initialValues = {
     email: '',
     password: '',
@@ -36,7 +45,10 @@ const LoginForm = ({navigation}) => {
         values.email,
         values.password,
       );
-      Alert.alert('Success', 'Login successful!');
+      showSnackbar('Login successful!');
+      setTimeout(() => {
+        dispatch(setUserData(user));
+      }, 2000); 
       const user = userCredential.user;
       console.log('Logged in user:', user.email);
       dispatch(setUserData(user));
@@ -58,7 +70,7 @@ const LoginForm = ({navigation}) => {
         default:
           errorMessage = error.message;
       }
-      Alert.alert('Error', errorMessage);
+      showSnackbar(errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -89,6 +101,7 @@ const LoginForm = ({navigation}) => {
         getAuth(),
         googleCredential,
       );
+     
       console.log('✅ Firebase sign-in successful:', authResult);
       dispatch(setUserData(authResult.user));
       navigation.navigate('Home');
@@ -100,8 +113,8 @@ const LoginForm = ({navigation}) => {
       setGoogleLoading(false);
     }
   };
-
   return (
+  
     <Formik
       initialValues={initialValues}
       validationSchema={loginValidationSchema}
@@ -150,9 +163,20 @@ const LoginForm = ({navigation}) => {
             loading={googleLoading}
             disabled={googleLoading}
           />
+          <Snackbar
+            visible={visible}
+            onDismiss={() => setVisible(false)}
+            action={{
+              label: 'OK',
+              onPress: () => setVisible(false),
+            }} 
+            style={{ marginBottom: 16 }}>
+            {snackbarMessage}
+          </Snackbar>
         </View>
       )}
     </Formik>
+     
   );
 };
 

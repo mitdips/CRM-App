@@ -1,4 +1,4 @@
-import {View, Alert} from 'react-native';
+import {View, Pressable, Text} from 'react-native';
 import {Formik} from 'formik';
 import FirstnameField from '../../molecules/FirstnameField';
 import LastnameField from '../../molecules/LastnameField';
@@ -11,11 +11,23 @@ import MobilenoFields from '../../molecules/MobilenoField';
 import Button from '../../molecules/Button';
 import {useNavigation} from '@react-navigation/native';
 import {getAuth} from '@react-native-firebase/auth';
+import {  Snackbar } from 'react-native-paper';
+import React, { useState } from 'react';
 
 const styles = useStyle();
 
 const RegistrationForm = () => {
   const navigation = useNavigation();
+
+  // Snackbar state
+  const [visible, setVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const showSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setVisible(true);
+  };
+
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -35,8 +47,10 @@ const RegistrationForm = () => {
       await userCredential.user.updateProfile({
         displayName: `${values.firstName} ${values.lastName}`,
       });
-      Alert.alert('Success', 'Registration successful!');
-      navigation.navigate('Login');
+      showSnackbar('Registration successful!');
+      setTimeout(() => {
+        navigation.navigate('Login');
+      }, 2000); 
     } catch (error) {
       let errorMessage = 'Registration failed';
       switch (error.code) {
@@ -53,7 +67,7 @@ const RegistrationForm = () => {
           errorMessage = 'Password is too weak';
           break;
       }
-      Alert.alert('Error', errorMessage);
+      showSnackbar(errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -118,6 +132,21 @@ const RegistrationForm = () => {
             loading={isSubmitting}
             title="Sign Up"
           />
+          <Pressable onPress={() => navigation.navigate('Login')}>
+           
+            <Text style={styles.text}>Go to Login</Text>
+          </Pressable>
+          <Snackbar
+            visible={visible}
+            onDismiss={() => setVisible(false)}
+            action={{
+              label: 'OK',
+              onPress: () => setVisible(false),
+            }}
+            style={{ marginBottom: 16 }}
+          >
+            {snackbarMessage}
+          </Snackbar>
         </View>
       )}
     </Formik>
