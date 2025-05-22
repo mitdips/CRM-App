@@ -15,9 +15,13 @@ import GoogleButton from '../../molecules/GoogleButton';
 import Text from '../../atoms/Text';
 import EmailField from '../../molecules/EmailField';
 import Button from '../../molecules/Button';
+import {useDispatch} from 'react-redux';
+import {setUserData} from '../../../redux/slices/AuthSlice';
+
+const styles = useStyle();
 
 const LoginForm = ({navigation}) => {
-  const styles = useStyle();
+  const dispatch = useDispatch();
   const [remember, setRemember] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const initialValues = {
@@ -35,6 +39,7 @@ const LoginForm = ({navigation}) => {
       Alert.alert('Success', 'Login successful!');
       const user = userCredential.user;
       console.log('Logged in user:', user.email);
+      dispatch(setUserData(user));
     } catch (error) {
       let errorMessage = 'Login failed';
       switch (error.code) {
@@ -85,6 +90,8 @@ const LoginForm = ({navigation}) => {
         googleCredential,
       );
       console.log('✅ Firebase sign-in successful:', authResult);
+      dispatch(setUserData(authResult.user));
+      navigation.navigate('Home');
       return authResult;
     } catch (error) {
       console.error('❌ Google sign-in failed:', error);

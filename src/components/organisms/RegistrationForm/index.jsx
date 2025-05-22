@@ -1,4 +1,3 @@
-import auth from '@react-native-firebase/auth';
 import {View, Alert} from 'react-native';
 import {Formik} from 'formik';
 import FirstnameField from '../../molecules/FirstnameField';
@@ -10,8 +9,8 @@ import {useStyle} from './style';
 import {COLORS} from '../../../utils/colors';
 import MobilenoFields from '../../molecules/MobilenoField';
 import Button from '../../molecules/Button';
-import BackButton from '../../molecules/BackButton';
 import {useNavigation} from '@react-navigation/native';
+import {getAuth} from '@react-native-firebase/auth';
 
 const styles = useStyle();
 
@@ -28,7 +27,8 @@ const RegistrationForm = () => {
 
   const handleRegistration = async (values, {setSubmitting}) => {
     try {
-      const userCredential = await auth().createUserWithEmailAndPassword(
+      const auth = getAuth();
+      const userCredential = await auth.createUserWithEmailAndPassword(
         values.email,
         values.password,
       );
