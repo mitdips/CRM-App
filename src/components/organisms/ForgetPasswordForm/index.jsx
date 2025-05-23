@@ -1,21 +1,19 @@
 import React from 'react';
 import {View, Alert} from 'react-native';
-import {getAuth, sendPasswordResetEmail} from 'firebase/auth';
 import {Formik} from 'formik';
 import EmailField from '../../molecules/EmailField';
 import Button from '../../atoms/Button';
 import {useStyle} from './style';
 import {forgotPasswordSchema} from '../../../utils/validationSchema';
-import BackButton from '../../molecules/BackButton';
+import { getAuth } from '@react-native-firebase/auth';
 
 const ForgetPasswordForm = ({navigation}) => {
   const styles = useStyle();
 
   const handleResetPassword = async (values, {setSubmitting}) => {
     try {
-      const auth = getAuth();
-      await sendPasswordResetEmail(auth, values.email);
-      Alert.alert('Success', 'Password reset email sent!');
+      console.log('values.email', values.email);
+      await getAuth().sendPasswordResetEmail(values.email);
     } catch (error) {
       console.error('Reset password error:', error);
       Alert.alert('Error', error.message);
