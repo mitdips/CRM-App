@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import {store, persistor} from './src/redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider as PaperProvider} from 'react-native-paper';
-import useTemporarySignOut from './useTemporarySignOut';
+
 const App = () => {
   useEffect(() => {
     SplashScreen.hide();
@@ -26,4 +26,5 @@ const App = () => {
     </Provider>
   );
 };
+
 export default App;

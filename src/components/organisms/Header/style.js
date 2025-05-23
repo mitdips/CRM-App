@@ -8,29 +8,25 @@ export const useStyle = () => {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 15,
+        padding: scale(15),
         backgroundColor: COLORS.white,
-        borderRadius: 16,
-       
+        borderRadius: scale(16),
+        marginVertical: scale(10),
       },
       logo: {
-        width: 44,
-        height: 44,
-        borderRadius: 12,
+        width: scale(35),
+        height: scale(35),
+        borderRadius: scale(12),
         backgroundColor: COLORS.primary,
       },
       iconRow: {
         flexDirection: 'row',
         alignItems: 'center',
-      },
-      iconButton: {
-        marginHorizontal: 8,
+        gap: scale(20),
       },
       profile: {
-        width: 36,
-        height: 36,
-        borderRadius: 18,
-        marginLeft: 8,
+        width: scale(30),
+        height: scale(30),
       },
   });
 };

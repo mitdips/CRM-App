@@ -1,13 +1,7 @@
 // src/components/organisms/Header/index.jsx
 
 import React from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import {View, Image, TouchableOpacity, Pressable} from 'react-native';
 import CustomVectorIcon from '../../atoms/VectorIcon';
 import {COLORS} from '../../../utils/colors';
 import {useStyle} from './style';
@@ -27,14 +21,14 @@ const Header = ({onSearchPress, onBellPress}) => {
 
       {/* Icons */}
       <View style={styles.iconRow}>
-        <TouchableOpacity onPress={onSearchPress} style={styles.iconButton}>
+        <TouchableOpacity onPress={onSearchPress}>
           <CustomVectorIcon
             name="Feather:search"
             size={28}
             color={COLORS.black}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={onBellPress} style={styles.iconButton}>
+        <TouchableOpacity onPress={onBellPress}>
           <CustomVectorIcon
             name="Feather:bell"
             size={28}

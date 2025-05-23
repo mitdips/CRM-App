@@ -4,6 +4,7 @@ import Text from '../../components/atoms/Text';
 import {useDispatch} from 'react-redux';
 import {getAuth} from '@react-native-firebase/auth';
 import {clearUserData} from '../../redux/slices/AuthSlice';
+import HomeTemplate from '../../components/templates/HomeTemplate';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -19,10 +20,11 @@ const HomeScreen = () => {
   };
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Welcome to Home Screen</Text>
-      <Button title="Logout" onPress={handleLogout} />
-    </View>
+    <HomeTemplate>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Button title="Logout" onPress={handleLogout} />
+      </View>
+    </HomeTemplate>
   );
 };
 
