@@ -10,4 +10,5 @@ export const COLORS = {
   white50: 'rgba(255,255,255,0.5)',
   google: '#FF4433',
   googleLoadingBg: '#ff443380',
+  toastBg: '#323232',
 };

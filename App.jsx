@@ -5,8 +5,8 @@ import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
 import {store, persistor} from './src/redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
+import {Provider as PaperProvider} from 'react-native-paper';
 import useTemporarySignOut from './useTemporarySignOut';
-import Header from './src/components/organisms/Header';
 const App = () => {
   useEffect(() => {
     SplashScreen.hide();
@@ -17,14 +17,13 @@ const App = () => {
   }, []);
 
   return (
-    // <Provider store={store}>
-    //   <PersistGate loading={null} persistor={persistor}>
-    //     <StackNavigator />
-    //   </PersistGate>
-    // </Provider>
-    <Header/>
-    
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <PaperProvider>
+          <StackNavigator />
+        </PaperProvider>
+      </PersistGate>
+    </Provider>
   );
-
 };
 export default App;
