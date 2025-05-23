@@ -1,27 +1,47 @@
-import { auth,getAuth, signInWithCredential, GithubAuthProvider } from '@react-native-firebase/auth';
 import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-import {useState} from 'react';
-import {View, Alert} from 'react-native';
+  GoogleAuthProvider,
+  getAuth,
+  signInWithCredential,
+} from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {useState, useEffect} from 'react';
+import {View} from 'react-native';
 import {Formik} from 'formik';
 import PasswordField from '../../molecules/PasswordFields';
 import RememberForgot from '../../molecules/RememberForget';
 import {useStyle} from './style';
 import {loginValidationSchema} from '../../../utils/validationSchema';
 import GoogleButton from '../../molecules/GoogleButton';
-import GithubButton from '../../molecules/GithubButton';
 import Text from '../../atoms/Text';
 import EmailField from '../../molecules/EmailField';
 import Button from '../../molecules/Button';
+import Toast from '../../atoms/Toast';
+import {setUserData} from '../../../redux/slices/AuthSlice';
+import {useDispatch} from 'react-redux';
 
-const LoginForm = ({navigation}) => {
-  const styles = useStyle();
+const LoginForm = ({navigation, route}) => {
   const [remember, setRemember] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [State, setState] = useState(null);
-  const [githubLoading, setGithubLoading] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const styles = useStyle();
+  const dispatch = useDispatch();
+
+  const showToast = message => {
+    setToastMessage(message);
+    setToastVisible(true);
+  };
+
+  // Check for registration success message
+  useEffect(() => {
+    if (route?.params?.registrationSuccess) {
+      setToastMessage('Account Created Successfully');
+      setToastVisible(true);
+      // Clear the parameter after showing toast
+      navigation.setParams({registrationSuccess: null});
+    }
+  }, [route?.params?.registrationSuccess]);
+
   const initialValues = {
     email: '',
     password: '',
@@ -29,24 +49,48 @@ const LoginForm = ({navigation}) => {
 
   const handleLogin = async (values, {setSubmitting}) => {
     try {
-      // Attempt to sign in with email and password
-      const userCredential = await auth().signInWithEmailAndPassword(
+      console.log('Login Started:', {
+        email: values.email,
+        attemptTime: new Date().toISOString(),
+      });
+
+      const auth = getAuth();
+      console.log('Attempting to sign in with:', values.email);
+
+      const userCredential = await auth.signInWithEmailAndPassword(
         values.email,
         values.password,
       );
 
-      // Show success message
-      Alert.alert('Success', 'Login successful!');
+      // Extract user data
+      const userData = {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        displayName: userCredential.user.displayName,
+        photoURL: userCredential.user.photoURL,
+        phoneNumber: userCredential.user.phoneNumber,
+        emailVerified: userCredential.user.emailVerified,
+        metadata: {
+          creationTime: userCredential.user.metadata.creationTime,
+          lastSignInTime: userCredential.user.metadata.lastSignInTime,
+        },
+      };
 
-      // You can access user info if needed
-      const user = userCredential.user;
-      console.log('Logged in user:', user.email);
+      console.log('Login Success - User Data:', userData);
 
-      // Navigate to your main app screen
-      // navigation.navigate('Home');
+      // Dispatch user data to Redux store
+      dispatch(setUserData(userData));
+
+      showToast('Login Successful');
+      console.log('Login process completed successfully');
     } catch (error) {
-      let errorMessage = 'Login failed';
+      console.error('Login Error:', {
+        code: error.code,
+        message: error.message,
+        fullError: error,
+      });
 
+      let errorMessage = 'Login failed';
       switch (error.code) {
         case 'auth/invalid-email':
           errorMessage = 'Invalid email address';
@@ -63,131 +107,97 @@ const LoginForm = ({navigation}) => {
         default:
           errorMessage = error.message;
       }
-
-      Alert.alert('Error', errorMessage);
+      console.log('Showing error toast:', errorMessage);
+      showToast(errorMessage);
     } finally {
+      console.log('Login attempt completed');
       setSubmitting(false);
     }
   };
-  async function signInWithGitHub(accessToken) {
-    try {
-      const credential = GithubAuthProvider.credential(accessToken);
-      const userCredential = await signInWithCredential(getAuth(), credential);
-      // Handle successful sign-in (e.g., navigate to the app's main screen)
-      console.log('User signed in with GitHub!', userCredential.user);
-    } catch (error) {
-      // Handle errors (e.g., display an error message)
-      console.log('GitHub sign-in error:', error);
-    }
-  }
+
   const handleGoogleSignIn = async () => {
-    console.log('Step 1: Starting Google Sign-In process');
-
     try {
-      console.log('Step 2: Checking Play Services availability');
+      setGoogleLoading(true);
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+      const signInResult = await GoogleSignin.signIn();
 
-      await GoogleSignin.hasPlayServices();
-
-      console.log('Step 3: Play Services check successful');
-
-      console.log('Step 4: Initiating Google Sign-In');
-
-      const response = await GoogleSignin.signIn();
-
-      console.log('Step 5: Google Sign-In response received:', response);
-
-      if (isSuccessResponse(response)) {
-        console.log('Step 6: Sign-In successful, updating user info');
-
-        setState({userInfo: response.data});
-
-        console.log('Step 7: User info updated successfully');
-      } else {
-        console.log('Step 6: Sign-In was cancelled by user');
+      let idToken = signInResult?.idToken;
+      if (!idToken) {
+        throw new Error('No ID token found');
       }
+
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+      await signInWithCredential(getAuth(), googleCredential);
+      // No need to dispatch here as StackNavigator will handle it
+      showToast('Login Successful');
     } catch (error) {
-      console.log('Error occurred during Google Sign-In:', error);
-
-      if (isErrorWithCode(error)) {
-        console.log('Error code:', error.code);
-
-        switch (error.code) {
-          case statusCodes.IN_PROGRESS:
-            console.log('Step X: Operation already in progress');
-
-            break;
-
-          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-            console.log('Step X: Play Services not available or outdated');
-
-            break;
-
-          default:
-            console.log('Step X: Other Google Sign-In error occurred');
-        }
-      } else {
-        console.log('Step X: Non-Google Sign-In related error occurred');
-      }
+      console.error('❌ Google sign-in failed:', error);
+      showToast('Google sign-in failed');
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={loginValidationSchema}
-      onSubmit={handleLogin}>
-      {({
-        handleChange,
-        handleSubmit,
-        values,
-        errors,
-        touched,
-        isSubmitting,
-      }) => (
-        <View style={styles.formContainer}>
-          <EmailField
-            value={values.email}
-            onChangeText={handleChange('email')}
-            error={touched.email && errors.email}
-          />
-
-          <PasswordField
-            placeholder="Password"
-            value={values.password}
-            onChangeText={handleChange('password')}
-            error={touched.password && errors.password}
-          />
-
-          <RememberForgot
-            remember={remember}
-            onCheckboxPress={() => setRemember(!remember)}
-            onForgotPasswordPress={() => navigation.navigate('ForgotPassword')}
-          />
-
-          <Button
-            postfixLogo
-            onPress={handleSubmit}
-            loading={isSubmitting}
-            title="Sign In"
-          />
-          <View style={styles.dividerContainer}>
-            <View style={styles.dividerLine} />
-            <Text style={styles.dividerText}>or</Text>
-            <View style={styles.dividerLine} />
+    <>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={loginValidationSchema}
+        onSubmit={handleLogin}>
+        {({
+          handleChange,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          isSubmitting,
+        }) => (
+          <View style={styles.formContainer}>
+            <EmailField
+              value={values.email}
+              onChangeText={handleChange('email')}
+              error={touched.email && errors.email}
+            />
+            <PasswordField
+              placeholder="Password"
+              value={values.password}
+              onChangeText={handleChange('password')}
+              error={touched.password && errors.password}
+            />
+            <RememberForgot
+              remember={remember}
+              onCheckboxPress={() => setRemember(!remember)}
+              onForgotPasswordPress={() =>
+                navigation.navigate('ForgotPassword')
+              }
+            />
+            <Button
+              postfixLogo
+              onPress={handleSubmit}
+              loading={isSubmitting}
+              title="Sign In"
+            />
+            <View style={styles.dividerContainer}>
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>or</Text>
+              <View style={styles.dividerLine} />
+            </View>
+            <GoogleButton
+              onPress={handleGoogleSignIn}
+              loading={googleLoading}
+              disabled={googleLoading}
+            />
           </View>
-          <GoogleButton
-            onPress={handleGoogleSignIn}
-            loading={googleLoading}
-            disabled={googleLoading}
-          />
-          <GithubButton 
-          onPress={signInWithGitHub}
-          loading={githubLoading}
-          disabled={githubLoading}
-          />
-        </View>
-      )}
-    </Formik>
+        )}
+      </Formik>
+
+      <Toast
+        visible={toastVisible}
+        onDismiss={() => setToastVisible(false)}
+        message={toastMessage}
+        duration={3000}
+      />
+    </>
   );
 };
 

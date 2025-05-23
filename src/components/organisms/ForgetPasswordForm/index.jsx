@@ -1,27 +1,22 @@
 
 import React from 'react';
-import { View, Pressable, Alert } from 'react-native';
-import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
-
-import { Formik } from 'formik';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {View, Alert} from 'react-native';
+import {getAuth, sendPasswordResetEmail} from 'firebase/auth';
+import {Formik} from 'formik';
 import EmailField from '../../molecules/EmailField';
 import Button from '../../atoms/Button';
-import Text from '../../atoms/Text';
-import { useStyle } from './style';
-import { COLORS } from '../../../utils/colors';
-import { scale } from 'react-native-size-matters';
-import { forgotPasswordSchema } from '../../../utils/validationSchema';
+import {useStyle} from './style';
+import {forgotPasswordSchema} from '../../../utils/validationSchema';
+import BackButton from '../../molecules/BackButton';
 
-const ForgetPasswordForm = ({ navigation }) => {
+const ForgetPasswordForm = ({navigation}) => {
   const styles = useStyle();
 
-  const handleResetPassword = async (values, { setSubmitting }) => {
+  const handleResetPassword = async (values, {setSubmitting}) => {
     try {
       const auth = getAuth();
       await sendPasswordResetEmail(auth, values.email);
       Alert.alert('Success', 'Password reset email sent!');
-    //   navigation.goBack(); 
     } catch (error) {
       console.error('Reset password error:', error);
       Alert.alert('Error', error.message);
@@ -32,19 +27,10 @@ const ForgetPasswordForm = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
-        <MaterialIcons
-          name="arrow-back"
-          size={scale(24)}
-          color={COLORS.primary}
-        />
-      </Pressable>
-
       <Formik
-        initialValues={{ email: '' }}
+        initialValues={{email: ''}}
         validationSchema={forgotPasswordSchema}
-        onSubmit={handleResetPassword}
-      >
+        onSubmit={handleResetPassword}>
         {({
           handleChange,
           handleSubmit,
