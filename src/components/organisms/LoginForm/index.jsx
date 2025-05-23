@@ -4,8 +4,8 @@ import {
   signInWithCredential,
 } from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {useState} from 'react';
-import {View, Alert} from 'react-native';
+import {useState, useEffect} from 'react';
+import {View} from 'react-native';
 import {Formik} from 'formik';
 import PasswordField from '../../molecules/PasswordFields';
 import RememberForgot from '../../molecules/RememberForget';
@@ -15,24 +15,33 @@ import GoogleButton from '../../molecules/GoogleButton';
 import Text from '../../atoms/Text';
 import EmailField from '../../molecules/EmailField';
 import Button from '../../molecules/Button';
-import {useDispatch} from 'react-redux';
+import Toast from '../../atoms/Toast';
 import {setUserData} from '../../../redux/slices/AuthSlice';
-import { Snackbar } from 'react-native-paper';
-const styles = useStyle();
+import {useDispatch} from 'react-redux';
 
-const LoginForm = ({navigation}) => {
-  const dispatch = useDispatch();
+const LoginForm = ({navigation, route}) => {
   const [remember, setRemember] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const styles = useStyle();
+  const dispatch = useDispatch();
 
-  // Snackbar state
-  const [visible, setVisible] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-
-  const showSnackbar = (message) => {
-    setSnackbarMessage(message);
-    setVisible(true);
+  const showToast = message => {
+    setToastMessage(message);
+    setToastVisible(true);
   };
+
+  // Check for registration success message
+  useEffect(() => {
+    if (route?.params?.registrationSuccess) {
+      setToastMessage('Account Created Successfully');
+      setToastVisible(true);
+      // Clear the parameter after showing toast
+      navigation.setParams({registrationSuccess: null});
+    }
+  }, [route?.params?.registrationSuccess]);
+
   const initialValues = {
     email: '',
     password: '',
@@ -40,19 +49,47 @@ const LoginForm = ({navigation}) => {
 
   const handleLogin = async (values, {setSubmitting}) => {
     try {
+      console.log('Login Started:', {
+        email: values.email,
+        attemptTime: new Date().toISOString(),
+      });
+
       const auth = getAuth();
+      console.log('Attempting to sign in with:', values.email);
+
       const userCredential = await auth.signInWithEmailAndPassword(
         values.email,
         values.password,
       );
-      showSnackbar('Login successful!');
-      setTimeout(() => {
-        dispatch(setUserData(user));
-      }, 2000); 
-      const user = userCredential.user;
-      console.log('Logged in user:', user.email);
-      dispatch(setUserData(user));
+
+      // Extract user data
+      const userData = {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        displayName: userCredential.user.displayName,
+        photoURL: userCredential.user.photoURL,
+        phoneNumber: userCredential.user.phoneNumber,
+        emailVerified: userCredential.user.emailVerified,
+        metadata: {
+          creationTime: userCredential.user.metadata.creationTime,
+          lastSignInTime: userCredential.user.metadata.lastSignInTime,
+        },
+      };
+
+      console.log('Login Success - User Data:', userData);
+
+      // Dispatch user data to Redux store
+      dispatch(setUserData(userData));
+
+      showToast('Login Successful');
+      console.log('Login process completed successfully');
     } catch (error) {
+      console.error('Login Error:', {
+        code: error.code,
+        message: error.message,
+        fullError: error,
+      });
+
       let errorMessage = 'Login failed';
       switch (error.code) {
         case 'auth/invalid-email':
@@ -70,8 +107,10 @@ const LoginForm = ({navigation}) => {
         default:
           errorMessage = error.message;
       }
-      showSnackbar(errorMessage);
+      console.log('Showing error toast:', errorMessage);
+      showToast(errorMessage);
     } finally {
+      console.log('Login attempt completed');
       setSubmitting(false);
     }
   };
@@ -79,104 +118,86 @@ const LoginForm = ({navigation}) => {
   const handleGoogleSignIn = async () => {
     try {
       setGoogleLoading(true);
-      console.log('Checking if device has Google Play Services...');
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-      console.log('Google Play Services available.');
-      console.log('Starting Google sign-in...');
       const signInResult = await GoogleSignin.signIn();
-      console.log('Sign-in result:', signInResult);
-      let idToken = signInResult?.data?.idToken;
+
+      let idToken = signInResult?.idToken;
       if (!idToken) {
-        console.log('Falling back to old idToken structure...');
-        idToken = signInResult?.idToken;
-      }
-      if (!idToken) {
-        console.error('❌ No ID token found in Google sign-in result');
         throw new Error('No ID token found');
       }
-      console.log('ID Token retrieved:', idToken);
+
       const googleCredential = GoogleAuthProvider.credential(idToken);
-      console.log('Google credential created:', googleCredential);
-      const authResult = await signInWithCredential(
-        getAuth(),
-        googleCredential,
-      );
-     
-      console.log('✅ Firebase sign-in successful:', authResult);
-      dispatch(setUserData(authResult.user));
-      navigation.navigate('Home');
-      return authResult;
+      await signInWithCredential(getAuth(), googleCredential);
+      // No need to dispatch here as StackNavigator will handle it
+      showToast('Login Successful');
     } catch (error) {
       console.error('❌ Google sign-in failed:', error);
-      throw error;
+      showToast('Google sign-in failed');
     } finally {
       setGoogleLoading(false);
     }
   };
+
   return (
-  
-    <Formik
-      initialValues={initialValues}
-      validationSchema={loginValidationSchema}
-      onSubmit={handleLogin}>
-      {({
-        handleChange,
-        handleSubmit,
-        values,
-        errors,
-        touched,
-        isSubmitting,
-      }) => (
-        <View style={styles.formContainer}>
-          <EmailField
-            value={values.email}
-            onChangeText={handleChange('email')}
-            error={touched.email && errors.email}
-          />
-
-          <PasswordField
-            placeholder="Password"
-            value={values.password}
-            onChangeText={handleChange('password')}
-            error={touched.password && errors.password}
-          />
-
-          <RememberForgot
-            remember={remember}
-            onCheckboxPress={() => setRemember(!remember)}
-            onForgotPasswordPress={() => navigation.navigate('ForgotPassword')}
-          />
-
-          <Button
-            postfixLogo
-            onPress={handleSubmit}
-            loading={isSubmitting}
-            title="Sign In"
-          />
-          <View style={styles.dividerContainer}>
-            <View style={styles.dividerLine} />
-            <Text style={styles.dividerText}>or</Text>
-            <View style={styles.dividerLine} />
+    <>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={loginValidationSchema}
+        onSubmit={handleLogin}>
+        {({
+          handleChange,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          isSubmitting,
+        }) => (
+          <View style={styles.formContainer}>
+            <EmailField
+              value={values.email}
+              onChangeText={handleChange('email')}
+              error={touched.email && errors.email}
+            />
+            <PasswordField
+              placeholder="Password"
+              value={values.password}
+              onChangeText={handleChange('password')}
+              error={touched.password && errors.password}
+            />
+            <RememberForgot
+              remember={remember}
+              onCheckboxPress={() => setRemember(!remember)}
+              onForgotPasswordPress={() =>
+                navigation.navigate('ForgotPassword')
+              }
+            />
+            <Button
+              postfixLogo
+              onPress={handleSubmit}
+              loading={isSubmitting}
+              title="Sign In"
+            />
+            <View style={styles.dividerContainer}>
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>or</Text>
+              <View style={styles.dividerLine} />
+            </View>
+            <GoogleButton
+              onPress={handleGoogleSignIn}
+              loading={googleLoading}
+              disabled={googleLoading}
+            />
           </View>
-          <GoogleButton
-            onPress={handleGoogleSignIn}
-            loading={googleLoading}
-            disabled={googleLoading}
-          />
-          <Snackbar
-            visible={visible}
-            onDismiss={() => setVisible(false)}
-            action={{
-              label: 'OK',
-              onPress: () => setVisible(false),
-            }} 
-            style={{ marginBottom: 16 }}>
-            {snackbarMessage}
-          </Snackbar>
-        </View>
-      )}
-    </Formik>
-     
+        )}
+      </Formik>
+
+      <Toast
+        visible={toastVisible}
+        onDismiss={() => setToastVisible(false)}
+        message={toastMessage}
+        duration={3000}
+      />
+    </>
   );
 };
 
