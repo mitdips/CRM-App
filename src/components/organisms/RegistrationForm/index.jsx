@@ -134,9 +134,6 @@ const RegistrationForm = () => {
               loading={isSubmitting}
               title="Sign Up"
             />
-            <Pressable onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.text}>Go to Login</Text>
-            </Pressable>
           </View>
         )}
       </Formik>

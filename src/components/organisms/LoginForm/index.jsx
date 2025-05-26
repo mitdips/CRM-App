@@ -107,10 +107,8 @@ const LoginForm = ({navigation, route}) => {
         default:
           errorMessage = error.message;
       }
-      console.log('Showing error toast:', errorMessage);
       showToast(errorMessage);
     } finally {
-      console.log('Login attempt completed');
       setSubmitting(false);
     }
   };
