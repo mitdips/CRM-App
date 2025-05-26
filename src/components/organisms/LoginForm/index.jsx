@@ -11,13 +11,15 @@ import PasswordField from '../../molecules/PasswordFields';
 import RememberForgot from '../../molecules/RememberForget';
 import {useStyle} from './style';
 import {loginValidationSchema} from '../../../utils/validationSchema';
-import GoogleButton from '../../molecules/GoogleButton';
 import Text from '../../atoms/Text';
 import EmailField from '../../molecules/EmailField';
-import Button from '../../molecules/Button';
+import Button from '../../atoms/Button';
 import Toast from '../../atoms/Toast';
 import {setUserData} from '../../../redux/slices/AuthSlice';
 import {useDispatch} from 'react-redux';
+import {COLORS} from '../../../utils/colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const LoginForm = ({navigation, route}) => {
   const [remember, setRemember] = useState(false);
@@ -172,20 +174,31 @@ const LoginForm = ({navigation, route}) => {
               }
             />
             <Button
-              postfixLogo
+              postfixLogo={
+                <Ionicons name="arrow-forward" size={20} color="white" />
+              }
               onPress={handleSubmit}
               loading={isSubmitting}
-              title="Sign In"
+              title="Sign in"
             />
             <View style={styles.dividerContainer}>
               <View style={styles.dividerLine} />
               <Text style={styles.dividerText}>or</Text>
               <View style={styles.dividerLine} />
             </View>
-            <GoogleButton
+            <Button
+              title="Sign in with Google"
+              bgColor={COLORS.google}
               onPress={handleGoogleSignIn}
               loading={googleLoading}
               disabled={googleLoading}
+              prefixLogo={
+                <MaterialCommunityIcons
+                  name="google"
+                  size={20}
+                  color={COLORS.white}
+                />
+              }
             />
           </View>
         )}
@@ -195,7 +208,6 @@ const LoginForm = ({navigation, route}) => {
         visible={toastVisible}
         onDismiss={() => setToastVisible(false)}
         message={toastMessage}
-        duration={3000}
       />
     </>
   );

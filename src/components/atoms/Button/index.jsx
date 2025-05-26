@@ -1,49 +1,53 @@
-import {View, ActivityIndicator, Pressable} from 'react-native';
+import {Text, TouchableOpacity, View, ActivityIndicator} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import {useStyle} from './style';
-import Text from '../Text';
 import {COLORS} from '../../../utils/colors';
 
 const styles = useStyle();
 
 const Button = ({
   title,
-  bgColor,
-  textColor,
+  textColor = COLORS.white,
   onPress,
   style,
   prefixLogo,
   postfixLogo,
   loading = false,
+  gradientColors = [COLORS.primary, COLORS.pink],
+  disabled = false,
+  bgColor,
 }) => {
+  const Wrapper = bgColor ? View : LinearGradient;
+  const wrapperProps = bgColor
+    ? {
+        style: [
+          styles.button,
+          {backgroundColor: bgColor, opacity: disabled ? 0.6 : 1},
+          style,
+        ],
+      }
+    : {
+        colors: gradientColors,
+        style: [styles.button, {opacity: disabled ? 0.6 : 1}, style],
+      };
+
   return (
-    <Pressable
-      onPress={!loading ? onPress : null}
-      disabled={loading}
-      style={({pressed}) => [
-        styles.btnContainer,
-        {
-          backgroundColor: loading ? COLORS.gray : bgColor || COLORS.primary,
-          opacity: pressed && !loading ? 0.85 : 1,
-          transform: [{scale: pressed && !loading ? 0.85 : 1}],
-        },
-        style,
-      ]}>
-      <View style={styles.buttonRow}>
+    <TouchableOpacity
+      activeOpacity={0.5}
+      onPress={onPress}
+      disabled={disabled || loading}>
+      <Wrapper {...wrapperProps}>
         {loading ? (
-          <ActivityIndicator size="small" color={COLORS.white} />
+          <ActivityIndicator color={textColor} />
         ) : (
-          <>
-            {prefixLogo}
-            <Text
-              type="medium"
-              style={[styles.btnText, {color: textColor || COLORS.white}]}>
-              {title}
-            </Text>
-            {postfixLogo}
-          </>
+          <View style={styles.content}>
+            {prefixLogo && <View style={styles.icon}>{prefixLogo}</View>}
+            <Text style={[styles.text, {color: textColor}]}>{title}</Text>
+            {postfixLogo && <View style={styles.icon}>{postfixLogo}</View>}
+          </View>
         )}
-      </View>
-    </Pressable>
+      </Wrapper>
+    </TouchableOpacity>
   );
 };
 

@@ -6,7 +6,6 @@ import EmailField from '../../molecules/EmailField';
 import Button from '../../atoms/Button';
 import {useStyle} from './style';
 import {forgotPasswordSchema} from '../../../utils/validationSchema';
-import BackButton from '../../molecules/BackButton';
 
 const ForgetPasswordForm = ({navigation}) => {
   const styles = useStyle();
