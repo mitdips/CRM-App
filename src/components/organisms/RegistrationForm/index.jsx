@@ -8,11 +8,12 @@ import {registrationValidationSchema} from '../../../utils/validationSchema';
 import {useStyle} from './style';
 import {COLORS} from '../../../utils/colors';
 import MobilenoFields from '../../molecules/MobilenoField';
-import Button from '../../molecules/Button';
 import {useNavigation} from '@react-navigation/native';
 import {getAuth} from '@react-native-firebase/auth';
 import React, {useState} from 'react';
 import Toast from '../../atoms/Toast';
+import Button from '../../atoms/Button';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const RegistrationForm = () => {
   const navigation = useNavigation();
@@ -129,10 +130,12 @@ const RegistrationForm = () => {
               placeholder="Confirm Password"
             />
             <Button
-              postfixLogo
+              postfixLogo={
+                <Ionicons name="arrow-forward" size={20} color="white" />
+              }
               onPress={handleSubmit}
               loading={isSubmitting}
-              title="Sign Up"
+              title="Sign up"
             />
           </View>
         )}

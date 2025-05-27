@@ -18,7 +18,7 @@ export const useStyle = () => {
       fontWeight: '600',
     },
     icon: {
-      marginHorizontal: scale(5),
+      marginHorizontal: scale(8),
     },
   });
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Snackbar} from 'react-native-paper';
 import {COLORS} from '../../../utils/colors';
-import { scale } from 'react-native-size-matters';
+import {scale} from 'react-native-size-matters';
 
 const Toast = ({visible, onDismiss, message, duration = 300000}) => {
   return (
@@ -10,13 +10,13 @@ const Toast = ({visible, onDismiss, message, duration = 300000}) => {
       onDismiss={onDismiss}
       duration={duration}
       style={{
-        width: '100%',
+        width: '95%',
+        alignSelf: 'center',
         backgroundColor: COLORS.toastBg,
         borderRadius: 10,
-        bottom: 0,
+        position: 'absolute',
+        bottom: scale(5),
         zIndex: 999,
-        alignItems: 'center',
-        justifyContent: 'center',
       }}
       action={{
         label: 'OK',

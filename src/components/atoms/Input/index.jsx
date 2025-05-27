@@ -113,7 +113,6 @@ const Input = ({
         onBlur={() => setIsFocused(false)}
         {...rest}
       />
-
       <Text style={styles.errorText}>{error ?? ''}</Text>
     </View>
   );

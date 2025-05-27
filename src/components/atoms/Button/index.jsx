@@ -7,7 +7,7 @@ const styles = useStyle();
 
 const Button = ({
   title,
-  textColor = COLORS.white,
+  textColor,
   onPress,
   style,
   prefixLogo,
@@ -16,37 +16,62 @@ const Button = ({
   gradientColors = [COLORS.primary, COLORS.pink],
   disabled = false,
   bgColor,
+  outlineColor,
+  outlineWidth = 1,
 }) => {
-  const Wrapper = bgColor ? View : LinearGradient;
-  const wrapperProps = bgColor
-    ? {
-        style: [
-          styles.button,
-          {backgroundColor: bgColor, opacity: disabled ? 0.6 : 1},
-          style,
-        ],
-      }
-    : {
-        colors: gradientColors,
-        style: [styles.button, {opacity: disabled ? 0.6 : 1}, style],
-      };
+  let currentTextColor = textColor;
+  let wrapperStyles = [styles.button];
+  let WrapperComponent = View;
+  let specificWrapperProps = {};
+
+  if (outlineColor) {
+    wrapperStyles.push({
+      borderColor: outlineColor,
+      borderWidth: outlineWidth,
+      backgroundColor: 'transparent',
+    });
+    if (!textColor) {
+      currentTextColor = outlineColor;
+    }
+  } else if (bgColor) {
+    wrapperStyles.push({
+      backgroundColor: bgColor,
+    });
+    if (!textColor) {
+      currentTextColor = COLORS.white;
+    }
+  } else {
+    WrapperComponent = LinearGradient;
+    specificWrapperProps.colors = gradientColors;
+    if (!textColor) {
+      currentTextColor = COLORS.white;
+    }
+  }
+
+  if (disabled || loading) {
+    wrapperStyles.push({opacity: 0.6});
+  }
+
+  wrapperStyles.push(style);
 
   return (
     <TouchableOpacity
       activeOpacity={0.5}
       onPress={onPress}
       disabled={disabled || loading}>
-      <Wrapper {...wrapperProps}>
+      <WrapperComponent {...specificWrapperProps} style={wrapperStyles}>
         {loading ? (
-          <ActivityIndicator color={textColor} />
+          <ActivityIndicator color={currentTextColor} />
         ) : (
           <View style={styles.content}>
             {prefixLogo && <View style={styles.icon}>{prefixLogo}</View>}
-            <Text style={[styles.text, {color: textColor}]}>{title}</Text>
+            <Text style={[styles.text, {color: currentTextColor}]}>
+              {title}
+            </Text>
             {postfixLogo && <View style={styles.icon}>{postfixLogo}</View>}
           </View>
         )}
-      </Wrapper>
+      </WrapperComponent>
     </TouchableOpacity>
   );
 };

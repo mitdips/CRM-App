@@ -6,7 +6,7 @@ export const useStyle = () => {
   return StyleSheet.create({
     formContainer: {
       width: '100%',
-      gap: scale(14),
+      // gap: scale(14),
     },
     dividerContainer: {
       flexDirection: 'row',

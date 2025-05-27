@@ -14,35 +14,17 @@ import {loginValidationSchema} from '../../../utils/validationSchema';
 import Text from '../../atoms/Text';
 import EmailField from '../../molecules/EmailField';
 import Button from '../../atoms/Button';
-import Toast from '../../atoms/Toast';
 import {setUserData} from '../../../redux/slices/AuthSlice';
 import {useDispatch} from 'react-redux';
 import {COLORS} from '../../../utils/colors';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CustomVectorIcon from '../../atoms/VectorIcon';
+import {scale} from 'react-native-size-matters';
 
-const LoginForm = ({navigation, route}) => {
+const LoginForm = ({navigation, route, showToast}) => {
   const [remember, setRemember] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [toastVisible, setToastVisible] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
   const styles = useStyle();
   const dispatch = useDispatch();
-
-  const showToast = message => {
-    setToastMessage(message);
-    setToastVisible(true);
-  };
-
-  // Check for registration success message
-  useEffect(() => {
-    if (route?.params?.registrationSuccess) {
-      setToastMessage('Account Created Successfully');
-      setToastVisible(true);
-      // Clear the parameter after showing toast
-      navigation.setParams({registrationSuccess: null});
-    }
-  }, [route?.params?.registrationSuccess]);
 
   const initialValues = {
     email: '',
@@ -64,7 +46,6 @@ const LoginForm = ({navigation, route}) => {
         values.password,
       );
 
-      // Extract user data
       const userData = {
         uid: userCredential.user.uid,
         email: userCredential.user.email,
@@ -79,10 +60,7 @@ const LoginForm = ({navigation, route}) => {
       };
 
       console.log('Login Success - User Data:', userData);
-
-      // Dispatch user data to Redux store
       dispatch(setUserData(userData));
-
       showToast('Login Successful');
       console.log('Login process completed successfully');
     } catch (error) {
@@ -130,7 +108,6 @@ const LoginForm = ({navigation, route}) => {
 
       const googleCredential = GoogleAuthProvider.credential(idToken);
       await signInWithCredential(getAuth(), googleCredential);
-      // No need to dispatch here as StackNavigator will handle it
       showToast('Login Successful');
     } catch (error) {
       console.error('❌ Google sign-in failed:', error);
@@ -141,31 +118,31 @@ const LoginForm = ({navigation, route}) => {
   };
 
   return (
-    <>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={loginValidationSchema}
-        onSubmit={handleLogin}>
-        {({
-          handleChange,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-          isSubmitting,
-        }) => (
-          <View style={styles.formContainer}>
-            <EmailField
-              value={values.email}
-              onChangeText={handleChange('email')}
-              error={touched.email && errors.email}
-            />
-            <PasswordField
-              placeholder="Password"
-              value={values.password}
-              onChangeText={handleChange('password')}
-              error={touched.password && errors.password}
-            />
+    <Formik
+      initialValues={initialValues}
+      validationSchema={loginValidationSchema}
+      onSubmit={handleLogin}>
+      {({
+        handleChange,
+        handleSubmit,
+        values,
+        errors,
+        touched,
+        isSubmitting,
+      }) => (
+        <View style={styles.formContainer}>
+          <EmailField
+            value={values.email}
+            onChangeText={handleChange('email')}
+            error={touched.email && errors.email}
+          />
+          <PasswordField
+            placeholder="Password"
+            value={values.password}
+            onChangeText={handleChange('password')}
+            error={touched.password && errors.password}
+          />
+          <View style={{gap: scale(10)}}>
             <RememberForgot
               remember={remember}
               onCheckboxPress={() => setRemember(!remember)}
@@ -175,11 +152,16 @@ const LoginForm = ({navigation, route}) => {
             />
             <Button
               postfixLogo={
-                <Ionicons name="arrow-forward" size={20} color="white" />
+                <CustomVectorIcon
+                  name="Ionicons:arrow-forward"
+                  size={20}
+                  color={COLORS.white}
+                />
               }
               onPress={handleSubmit}
               loading={isSubmitting}
-              title="Sign in"
+              disabled={isSubmitting}
+              title="Sign In"
             />
             <View style={styles.dividerContainer}>
               <View style={styles.dividerLine} />
@@ -188,28 +170,23 @@ const LoginForm = ({navigation, route}) => {
             </View>
             <Button
               title="Sign in with Google"
-              bgColor={COLORS.google}
+              outlineColor={COLORS.primary}
+              outlineWidth={2}
               onPress={handleGoogleSignIn}
               loading={googleLoading}
               disabled={googleLoading}
               prefixLogo={
-                <MaterialCommunityIcons
-                  name="google"
-                  size={20}
-                  color={COLORS.white}
+                <CustomVectorIcon
+                  name="MaterialCommunityIcons:google"
+                  size={22}
+                  color={COLORS.primary}
                 />
               }
             />
           </View>
-        )}
-      </Formik>
-
-      <Toast
-        visible={toastVisible}
-        onDismiss={() => setToastVisible(false)}
-        message={toastMessage}
-      />
-    </>
+        </View>
+      )}
+    </Formik>
   );
 };
 
