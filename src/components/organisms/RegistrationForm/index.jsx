@@ -1,4 +1,4 @@
-import {View, Pressable, Text} from 'react-native';
+import {View} from 'react-native';
 import {Formik} from 'formik';
 import FirstnameField from '../../molecules/FirstnameField';
 import LastnameField from '../../molecules/LastnameField';
@@ -8,23 +8,13 @@ import {registrationValidationSchema} from '../../../utils/validationSchema';
 import {useStyle} from './style';
 import {COLORS} from '../../../utils/colors';
 import MobilenoFields from '../../molecules/MobilenoField';
-import {useNavigation} from '@react-navigation/native';
 import {getAuth} from '@react-native-firebase/auth';
-import React, {useState} from 'react';
-import Toast from '../../atoms/Toast';
+import React from 'react';
 import Button from '../../atoms/Button';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import CustomVectorIcon from '../../atoms/VectorIcon';
 
-const RegistrationForm = () => {
-  const navigation = useNavigation();
-  const [toastVisible, setToastVisible] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+const RegistrationForm = ({navigation, showToast}) => {
   const styles = useStyle();
-
-  const showToast = message => {
-    setToastMessage(message);
-    setToastVisible(true);
-  };
 
   const initialValues = {
     firstName: '',
@@ -38,12 +28,10 @@ const RegistrationForm = () => {
   const handleRegistration = async (values, {setSubmitting}) => {
     try {
       const auth = getAuth();
-      // Create user
       const userCredential = await auth.createUserWithEmailAndPassword(
         values.email,
         values.password,
       );
-      // Update profile
       await userCredential.user.updateProfile({
         displayName: `${values.firstName} ${values.lastName}`,
       });
@@ -82,72 +70,67 @@ const RegistrationForm = () => {
   };
 
   return (
-    <>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={registrationValidationSchema}
-        onSubmit={handleRegistration}>
-        {({
-          handleChange,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-          isSubmitting,
-        }) => (
-          <View style={styles.formContainer}>
-            <FirstnameField
-              value={values.firstName}
-              onChangeText={handleChange('firstName')}
-              error={touched.firstName && errors.firstName}
-            />
-            <LastnameField
-              value={values.lastName}
-              onChangeText={handleChange('lastName')}
-              error={touched.lastName && errors.lastName}
-            />
-            <EmailField
-              value={values.email}
-              onChangeText={handleChange('email')}
-              error={touched.email && errors.email}
-            />
-            <MobilenoFields
-              value={values.mobileNo}
-              onChangeText={handleChange('mobileNo')}
-              error={touched.mobileNo && errors.mobileNo}
-            />
-            <PasswordField
-              placeholder="Password"
-              value={values.password}
-              onChangeText={handleChange('password')}
-              error={touched.password && errors.password}
-            />
-            <PasswordField
-              value={values.confirmPassword}
-              onChangeText={handleChange('confirmPassword')}
-              error={touched.confirmPassword && errors.confirmPassword}
-              styleText={{color: COLORS.gray}}
-              placeholder="Confirm Password"
-            />
-            <Button
-              postfixLogo={
-                <Ionicons name="arrow-forward" size={20} color="white" />
-              }
-              onPress={handleSubmit}
-              loading={isSubmitting}
-              title="Sign up"
-            />
-          </View>
-        )}
-      </Formik>
-
-      <Toast
-        visible={toastVisible}
-        onDismiss={() => setToastVisible(false)}
-        message={toastMessage}
-        duration={3000}
-      />
-    </>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={registrationValidationSchema}
+      onSubmit={handleRegistration}>
+      {({
+        handleChange,
+        handleSubmit,
+        values,
+        errors,
+        touched,
+        isSubmitting,
+      }) => (
+        <View style={styles.formContainer}>
+          <FirstnameField
+            value={values.firstName}
+            onChangeText={handleChange('firstName')}
+            error={touched.firstName && errors.firstName}
+          />
+          <LastnameField
+            value={values.lastName}
+            onChangeText={handleChange('lastName')}
+            error={touched.lastName && errors.lastName}
+          />
+          <EmailField
+            value={values.email}
+            onChangeText={handleChange('email')}
+            error={touched.email && errors.email}
+          />
+          <MobilenoFields
+            value={values.mobileNo}
+            onChangeText={handleChange('mobileNo')}
+            error={touched.mobileNo && errors.mobileNo}
+          />
+          <PasswordField
+            placeholder="Password"
+            value={values.password}
+            onChangeText={handleChange('password')}
+            error={touched.password && errors.password}
+          />
+          <PasswordField
+            value={values.confirmPassword}
+            onChangeText={handleChange('confirmPassword')}
+            error={touched.confirmPassword && errors.confirmPassword}
+            styleText={{color: COLORS.gray}}
+            placeholder="Confirm Password"
+          />
+          <Button
+            postfixLogo={
+              <CustomVectorIcon
+                name="Ionicons:arrow-forward"
+                size={20}
+                color={COLORS.white}
+              />
+            }
+            onPress={handleSubmit}
+            loading={isSubmitting}
+            title="Sign up"
+          />
+        </View>
+      )}
+    </Formik>
   );
 };
 
