@@ -1,25 +1,23 @@
 import React from 'react';
 import {Snackbar} from 'react-native-paper';
 import {COLORS} from '../../../utils/colors';
+import {scale} from 'react-native-size-matters';
 
-const Toast = ({visible, onDismiss, message, duration = 3000, style}) => {
+const Toast = ({visible, onDismiss, message, duration = 30000}) => {
   return (
     <Snackbar
       visible={visible}
       onDismiss={onDismiss}
       duration={duration}
-      style={[
-        {
-          backgroundColor: COLORS.toastBg,
-          borderRadius: 10,
-          position: 'absolute',
-          zIndex: 999,
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%',
-        },
-        style,
-      ]}
+      style={{
+        width: '95%',
+        alignSelf: 'center',
+        backgroundColor: COLORS.toastBg,
+        borderRadius: 10,
+        position: 'absolute',
+        bottom: scale(5),
+        zIndex: 999,
+      }}
       action={{
         label: 'OK',
         onPress: onDismiss,

@@ -1,4 +1,4 @@
-import {View, Pressable, Text} from 'react-native';
+import {View} from 'react-native';
 import {Formik} from 'formik';
 import FirstnameField from '../../molecules/FirstnameField';
 import LastnameField from '../../molecules/LastnameField';
@@ -8,22 +8,13 @@ import {registrationValidationSchema} from '../../../utils/validationSchema';
 import {useStyle} from './style';
 import {COLORS} from '../../../utils/colors';
 import MobilenoFields from '../../molecules/MobilenoField';
-import Button from '../../molecules/Button';
-import {useNavigation} from '@react-navigation/native';
 import {getAuth} from '@react-native-firebase/auth';
-import React, {useState} from 'react';
-import Toast from '../../atoms/Toast';
+import React from 'react';
+import Button from '../../atoms/Button';
+import CustomVectorIcon from '../../atoms/VectorIcon';
 
-const RegistrationForm = () => {
-  const navigation = useNavigation();
-  const [toastVisible, setToastVisible] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+const RegistrationForm = ({navigation, showToast}) => {
   const styles = useStyle();
-
-  const showToast = message => {
-    setToastMessage(message);
-    setToastVisible(true);
-  };
 
   const initialValues = {
     firstName: '',
@@ -37,12 +28,10 @@ const RegistrationForm = () => {
   const handleRegistration = async (values, {setSubmitting}) => {
     try {
       const auth = getAuth();
-      // Create user
       const userCredential = await auth.createUserWithEmailAndPassword(
         values.email,
         values.password,
       );
-      // Update profile
       await userCredential.user.updateProfile({
         displayName: `${values.firstName} ${values.lastName}`,
       });
