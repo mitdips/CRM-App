@@ -1,6 +1,6 @@
 import Input from '../../atoms/Input';
 
-const MobilenoFields = ({value, onChangeText, error, styleInput}) => {
+const MobilenoField = ({value, onChangeText, error, styleInput}) => {
   return (
     <Input
       style={styleInput}
@@ -12,4 +12,4 @@ const MobilenoFields = ({value, onChangeText, error, styleInput}) => {
     />
   );
 };
-export default MobilenoFields;
+export default MobilenoField;
