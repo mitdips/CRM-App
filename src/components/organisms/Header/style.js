@@ -14,10 +14,8 @@ export const useStyle = () => {
         marginVertical: scale(10),
       },
       logo: {
-        width: scale(35),
-        height: scale(35),
-        borderRadius: scale(12),
-        backgroundColor: COLORS.primary,
+        width: scale(40),
+        height: scale(40),
       },
       iconRow: {
         flexDirection: 'row',

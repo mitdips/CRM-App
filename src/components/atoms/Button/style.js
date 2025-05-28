@@ -4,7 +4,7 @@ export const useStyle = () => {
   return StyleSheet.create({
     button: {
       borderRadius: 15,
-      paddingVertical: scale(10),
+      paddingVertical: scale(9),
       paddingHorizontal: scale(24),
       alignItems: 'center',
       justifyContent: 'center',

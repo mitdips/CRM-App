@@ -4,8 +4,8 @@ export const COLORS = {
   black: '#000',
   white: '#fff',
   gray: '#909090',
+  darkGray: '#323232',
   error: '#F44336',
   google: '#FF4433',
-  toastBg: '#323232',
   pink: '#FF69B4',
 };

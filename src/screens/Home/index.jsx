@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Button} from 'react-native';
-import Text from '../../components/atoms/Text';
 import {useDispatch} from 'react-redux';
 import {getAuth} from '@react-native-firebase/auth';
 import {clearUserData} from '../../redux/slices/AuthSlice';
