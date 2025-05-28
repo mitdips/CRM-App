@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import {store, persistor} from './src/redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider as PaperProvider} from 'react-native-paper';
+import Project from './src/components/organisms/ProjectForm';
 
 const App = () => {
   useEffect(() => {
@@ -20,7 +21,8 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <PaperProvider>
-          <StackNavigator />
+          <Project/>
+          {/* <StackNavigator /> */}
         </PaperProvider>
       </PersistGate>
     </Provider>
@@ -28,3 +30,5 @@ const App = () => {
 };
 
 export default App;
+
+
