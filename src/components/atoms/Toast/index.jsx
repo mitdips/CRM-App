@@ -12,7 +12,7 @@ const Toast = ({visible, onDismiss, message, duration = 30000}) => {
       style={{
         width: '95%',
         alignSelf: 'center',
-        backgroundColor: COLORS.toastBg,
+        backgroundColor: COLORS.darkGray,
         borderRadius: 10,
         position: 'absolute',
         bottom: scale(5),

@@ -1,8 +1,8 @@
-import {Text, TouchableOpacity, View, ActivityIndicator} from 'react-native';
+import {TouchableOpacity, View, ActivityIndicator} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useStyle} from './style';
 import {COLORS} from '../../../utils/colors';
-
+import Text from '../Text';
 const styles = useStyle();
 
 const Button = ({
