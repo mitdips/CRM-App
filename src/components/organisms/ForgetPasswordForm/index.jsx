@@ -1,12 +1,11 @@
 import React from 'react';
 import {View} from 'react-native';
-import {getAuth, sendPasswordResetEmail} from 'firebase/auth';
 import {Formik} from 'formik';
 import EmailField from '../../molecules/EmailField';
 import Button from '../../atoms/Button';
 import {useStyle} from './style';
 import {forgotPasswordSchema} from '../../../utils/validationSchema';
-import { getAuth } from '@react-native-firebase/auth';
+import { getAuth, sendPasswordResetEmail } from '@react-native-firebase/auth';
 
 const ForgetPasswordForm = ({navigation, showToast}) => {
   const styles = useStyle();
