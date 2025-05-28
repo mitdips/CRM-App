@@ -5,8 +5,10 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
-platform :ios, min_ios_version_supported
-prepare_react_native_project!
+
+# Enabling modular headers globally is often the best approach for Firebase with Swift
+use_modular_headers!
+# prepare_react_native_project! # This line is often not needed with RN 0.71+ and use_native_modules!
 
 # If you are using a `react-native-flipper` your iOS build will fail when `NO_FLIPPER=1` is set.
 # because `react-native-flipper` depends on (FlipperKit,...) that will be excluded
@@ -19,11 +21,12 @@ prepare_react_native_project!
 # ```
 flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
 
-linkage = ENV['USE_FRAMEWORKS']
-if linkage != nil
-  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  use_frameworks! :linkage => linkage.to_sym
-end
+# Remove the explicit use_frameworks! section unless you have a very specific reason for it
+# linkage = ENV['USE_FRAMEWORKS']
+# if linkage != nil
+#   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+#   use_frameworks! :linkage => linkage.to_sym
+# end
 
 target 'CRM' do
   config = use_native_modules!
@@ -39,6 +42,13 @@ target 'CRM' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  # You generally DO NOT need to specify Firebase pods explicitly here if they are auto-linked
+  # and @react-native-firebase/* packages are in your package.json.
+  # Auto-linking with use_native_modules! should handle them.
+  # Remove these lines:
+  # pod 'FirebaseAuth', :modular_headers => true
+  # pod 'FirebaseCore', :modular_headers => true
+
   target 'CRMTests' do
     inherit! :complete
     # Pods for testing
@@ -51,5 +61,13 @@ target 'CRM' do
       config[:reactNativePath],
       :mac_catalyst_enabled => false
     )
+    # Additional post_install script for Firebase (if needed by specific versions)
+    # but often not required with latest @react-native-firebase
+    # installer.pods_project.targets.each do |target|
+    #   if target.name == "React-Core"
+    #     target.compiler_flags_without_xcconfig = ['-fno-omit-frame-pointer']
+    #   end
+    #   # Add other flags if necessary
+    # end
   end
 end
