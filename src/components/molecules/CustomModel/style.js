@@ -11,13 +11,12 @@ export const useStyle = () => {
       backgroundColor: 'rgba(0,0,0,0.5)',
     },
     modalView: {
-      flex: 1,
+      width: width * 0.9,
+      minHeight: height * 0.65,
       backgroundColor: COLORS.white,
       borderRadius: scale(20),
-      paddingVertical: scale(20),
-      paddingHorizontal: scale(15),
-      width: width * 0.9,
-      maxHeight: height * 0.9,
+      paddingVertical: scale(10),
+      paddingHorizontal: scale(10),
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
@@ -32,23 +31,21 @@ export const useStyle = () => {
       justifyContent: 'space-between',
       alignItems: 'center',
       paddingHorizontal: scale(5),
+      marginVertical: scale(10),
     },
     titleText: {
       fontSize: scale(18),
       fontWeight: 'bold',
       color: COLORS.textDark,
     },
-    closeButton: {
-      padding: scale(5),
-    },
     closeButtonNoTitle: {
       position: 'absolute',
-      top: scale(10),
-      right: scale(10),
+      top: scale(15),
+      right: scale(15),
       zIndex: 1,
     },
     modalContent: {
-      // paddingHorizontal: scale(5), // Content alignment
+      flex: 1,
     },
   });
 };

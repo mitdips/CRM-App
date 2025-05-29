@@ -4,6 +4,7 @@ import {COLORS} from '../../../utils/colors';
 import CustomVectorIcon from '../../atoms/VectorIcon';
 import CustomText from '../../atoms/Text';
 import {useStyle} from './style';
+import { scale } from 'react-native-size-matters';
 
 const styles = useStyle();
 
@@ -21,10 +22,10 @@ const CustomModal = ({visible, onClose, children, title}) => {
               <CustomText style={styles.titleText} type="title">
                 {title}
               </CustomText>
-              <Pressable onPress={onClose} style={styles.closeButton}>
+              <Pressable onPress={onClose}>
                 <CustomVectorIcon
                   name="MaterialCommunityIcons:close"
-                  size={24}
+                  size={scale(20)}
                   color={COLORS.darkGray}
                 />
               </Pressable>
@@ -33,7 +34,7 @@ const CustomModal = ({visible, onClose, children, title}) => {
           {!title && (
             <Pressable
               onPress={onClose}
-              style={[styles.closeButton, styles.closeButtonNoTitle]}>
+              style={styles.closeButtonNoTitle}>
               <CustomVectorIcon
                 name="MaterialCommunityIcons:close"
                 size={24}

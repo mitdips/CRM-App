@@ -4,24 +4,9 @@ import {COLORS} from '../../../utils/colors';
 
 export const useStyle = () => {
   return StyleSheet.create({
-    outerContainer: {
-      flex: 1,
-      backgroundColor: '#f5f6fa',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
     container: {
-      width: '90%',
-      backgroundColor: '#fff',
-      borderRadius: 16,
-      padding: 24,
-      shadowColor: '#000',
-      shadowOffset: {width: 0, height: 2},
-      shadowOpacity: 0.08,
-      shadowRadius: 8,
-      elevation: 4,
+      width: '100%',
       flex: 1,
-      paddingBottom: verticalScale(20),
     },
     title: {
       fontSize: 22,
