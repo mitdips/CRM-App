@@ -3,7 +3,7 @@ import {Snackbar} from 'react-native-paper';
 import {COLORS} from '../../../utils/colors';
 import {scale} from 'react-native-size-matters';
 
-const Toast = ({visible, onDismiss, message, duration = 30000}) => {
+const Toast = ({visible, onDismiss, message, duration = 3000}) => {
   return (
     <Snackbar
       visible={visible}

@@ -1,6 +1,4 @@
-import {View} from 'react-native';
 import Input from '../../atoms/Input';
-import Text from '../../atoms/Text';
 
 const LastnameField = ({value, onChangeText, error, styleInput, styleText}) => {
   return (

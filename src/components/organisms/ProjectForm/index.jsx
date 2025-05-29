@@ -1,104 +1,240 @@
 import React, {useState} from 'react';
-import {View, Platform} from 'react-native';
+import {View, ScrollView, Platform} from 'react-native';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
 import Input from '../../atoms/Input';
 import Button from '../../atoms/Button';
-import Text from '../../atoms/Text';
-import {useStyle} from './style'
+import CustomVectorIcon from '../../atoms/VectorIcon';
+import {COLORS} from '../../../utils/colors';
+import {useStyle} from './style';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-const priorities = ['Low', 'Medium', 'High'];
+const styles = useStyle();
 
-const Project = () => {
-    const styles=useStyle()
-  const [projectName, setProjectName] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [deadLine, setDeadLine] = useState('');
-  const [priority, setPriority] = useState('Medium');
-  const [description, setDescription] = useState('');
-  const [showPriorityDropdown, setShowPriorityDropdown] = useState(false);
+// Dummy data for pickers - replace with your actual data source
+const taskGroupOptions = [
+  {label: 'Design', value: 'design'},
+  {label: 'Development', value: 'development'},
+  {label: 'Marketing', value: 'marketing'},
+  {label: 'Testing', value: 'testing'},
+];
 
-  // Dummy date picker logic (replace with your own picker)
-  const openDatePicker = setter => {
-    // For demonstration, just set a static date
-    setter('2024-06-01');
+const priorityOptions = [
+  {label: 'High', value: 'high'},
+  {label: 'Medium', value: 'medium'},
+  {label: 'Low', value: 'low'},
+];
+
+const assigneeOptions = [
+  {label: 'User 1', value: 'user1'},
+  {label: 'User 2', value: 'user2'},
+  {label: 'User 3', value: 'user3'},
+];
+
+const projectValidationSchema = Yup.object().shape({
+  taskName: Yup.string().required('Task name is required'),
+  taskGroup: Yup.string().required('Task group is required'),
+  estimate: Yup.object()
+    .shape({
+      hours: Yup.number().min(0).max(23),
+      minutes: Yup.number().min(0).max(59),
+    })
+    .nullable(),
+  deadline: Yup.date().nullable().required('Deadline is required'),
+  priority: Yup.string().required('Priority is required'),
+  assignee: Yup.string().required('Assignee is required'),
+  description: Yup.string(),
+});
+
+const ProjectForm = ({onSubmit, initialValues = {}}) => {
+  const [showPicker, setShowPicker] = useState(false);
+  const [pickerMode, setPickerMode] = useState('date');
+  const [currentField, setCurrentField] = useState('');
+
+  const defaultInitialValues = {
+    taskName: '',
+    taskGroup: taskGroupOptions[0]?.value || '',
+    estimate: null,
+    deadline: null,
+    priority: priorityOptions[1]?.value || '',
+    assignee: assigneeOptions[0]?.value || '',
+    description: '',
+    ...initialValues,
+  };
+
+  const showMode = (currentMode, fieldName) => {
+    setShowPicker(true);
+    setPickerMode(currentMode);
+    setCurrentField(fieldName);
+  };
+
+  const formatTime = timeObj => {
+    if (
+      !timeObj ||
+      typeof timeObj.hours === 'undefined' ||
+      typeof timeObj.minutes === 'undefined'
+    ) {
+      return '';
+    }
+    const hours = String(timeObj.hours).padStart(2, '0');
+    const minutes = String(timeObj.minutes).padStart(2, '0');
+    return `${hours}:${minutes}`;
   };
 
   return (
-    <View style={styles.outerContainer}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Add Project</Text>
+    <Formik
+      initialValues={defaultInitialValues}
+      validationSchema={projectValidationSchema}
+      onSubmit={(values, actions) => {
+        onSubmit(values);
+        actions.setSubmitting(false);
+      }}>
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        errors,
+        touched,
+        setFieldValue,
+        isSubmitting,
+      }) => {
+        const onPickerChange = (event, selectedValue) => {
+          setShowPicker(false);
+          if (event.type === 'set' && selectedValue) {
+            if (currentField === 'deadline') {
+              setFieldValue('deadline', selectedValue);
+            } else if (currentField === 'estimate') {
+              const hours = selectedValue.getHours();
+              const minutes = selectedValue.getMinutes();
+              setFieldValue('estimate', {hours, minutes});
+            }
+          }
+        };
 
-        <Text style={styles.label}>Project Name</Text>
-        <Input
-          placeholder="Project Name"
-          value={projectName}
-          onChangeText={setProjectName}
-          style={styles.input}
-        />
+        return (
+          <ScrollView
+            style={styles.container}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled">
+            <Input
+              placeholder="Task Name"
+              onChangeText={handleChange('taskName')}
+              onBlur={handleBlur('taskName')}
+              value={values.taskName}
+              error={touched.taskName && errors.taskName}
+            />
+            <Input
+              placeholder="Select Task Group"
+              onChangeText={handleChange('taskGroup')}
+              onBlur={handleBlur('taskGroup')}
+              value={values.taskGroup}
+              error={touched.taskGroup && errors.taskGroup}
+            />
+            <Input
+              dataType="date"
+              placeholder="Select duration"
+              onDateChange={() => showMode('date', 'deadline')}
+              value={
+                values.deadline ? values.deadline.toLocaleDateString() : ''
+              }
+              error={touched.estimate && errors.estimate?.hours}
+            />
+            <Input
+              dataType="time"
+              placeholder="Select Date"
+              onDateChange={() => showMode('time', 'estimate')}
+              value={values.estimate ? formatTime(values.estimate) : ''}
+              error={touched.deadline && errors.deadline}
+            />
 
-        <Text style={styles.label}>Starts</Text>
-        <Input
-          placeholder="Select Date"
-          value={startDate}
-          onChangeText={setStartDate}
-          rightType="calendar"
-          onRightIconPress={() => openDatePicker(setStartDate)}
-          style={styles.input}
-        />
+            {showPicker && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={
+                  currentField === 'deadline'
+                    ? values.deadline || new Date()
+                    : values.estimate
+                    ? new Date(
+                        new Date().setHours(
+                          values.estimate.hours,
+                          values.estimate.minutes,
+                        ),
+                      )
+                    : new Date()
+                }
+                mode={pickerMode}
+                is24Hour={true}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                onChange={onPickerChange}
+              />
+            )}
+            <Input
+              placeholder="Select Priority"
+              onChangeText={handleChange('priority')}
+              onBlur={handleBlur('priority')}
+              value={values.priority}
+              error={touched.priority && errors.priority}
+            />
+            <Input
+              placeholder="Select Assignee"
+              onChangeText={handleChange('assignee')}
+              onBlur={handleBlur('assignee')}
+              value={values.assignee}
+              error={touched.assignee && errors.assignee}
+            />
+            <Input
+              placeholder="Add some description of the task"
+              onChangeText={handleChange('description')}
+              onBlur={handleBlur('description')}
+              value={values.description}
+              error={touched.description && errors.description}
+              multiline
+              numberOfLines={3}
+              textAlignVertical="top"
+              // style={styles.descriptionInput}
+            />
 
-        <Text style={styles.label}>Dead Line</Text>
-        <Input
-          placeholder="Select Date"
-          value={deadLine}
-          onChangeText={setDeadLine}
-          rightType="calendar"
-          onRightIconPress={() => openDatePicker(setDeadLine)}
-          style={styles.input}
-        />
+            {/* <View style={styles.attachmentButtonsContainer}>
+              <Button
+                prefixLogo={
+                  <CustomVectorIcon
+                    name="paperclip"
+                    family="Feather"
+                    size={20}
+                    color={COLORS.primary}
+                  />
+                }
+                buttonStyle={styles.iconButton}
+                onPress={() => console.log('Attach file')}
+                type="text"
+              />
+              <Button
+                prefixLogo={
+                  <CustomVectorIcon
+                    name="link-2"
+                    family="Feather"
+                    size={20}
+                    color={COLORS.secondary}
+                  />
+                }
+                buttonStyle={styles.iconButton}
+                onPress={() => console.log('Add link')}
+                type="text"
+              />
+            </View> */}
 
-        <Text style={styles.label}>Priority</Text>
-        <Input
-          placeholder="Medium"
-          value={priority}
-          onChangeText={setPriority}
-          style={styles.input}
-          onFocus={() => setShowPriorityDropdown(true)}
-        />
-        {showPriorityDropdown && (
-          <View style={styles.dropdown}>
-            {priorities.map(item => (
-              <Text
-                key={item}
-                style={styles.dropdownItem}
-                onPress={() => {
-                  setPriority(item);
-                  setShowPriorityDropdown(false);
-                }}
-              >
-                {item}
-              </Text>
-            ))}
-          </View>
-        )}
-
-        <Text style={styles.label}>Description</Text>
-        <Input
-          placeholder="Add some description of the project"
-          value={description}
-          onChangeText={setDescription}
-          multiline
-          style={styles.textArea}
-        />
-
-        <Button
-          title="Add Project"
-          onPress={() => {
-            // handle submit
-          }}
-          style={styles.button}
-        />
-      </View>
-    </View>
+            <Button
+              title="Save Project"
+              onPress={handleSubmit}
+              loading={isSubmitting}
+              buttonStyle={styles.saveButton}
+            />
+          </ScrollView>
+        );
+      }}
+    </Formik>
   );
 };
 
-export default Project;
+export default ProjectForm;

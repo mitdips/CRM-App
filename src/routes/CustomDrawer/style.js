@@ -28,12 +28,12 @@ export const useStyle = () => {
       backgroundColor: COLORS.secondary,
     },
     drawerLabel: {
-      fontSize: scale(12),
+      fontSize: scale(14),
       marginLeft: scale(10),
       color: COLORS.gray,
     },
     drawerLabelActive: {
-      color: COLORS.darkGray,
+      color: COLORS.primary,
     },
     activeItemIndicator: {
       position: 'absolute',

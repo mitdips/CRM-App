@@ -14,7 +14,7 @@ const DrawerNavigator = () => {
       screenOptions={{
         headerShown: false,
         drawerStyle: {
-          width: '65%',
+          width: '60%',
         },
       }}>
       <Drawer.Screen

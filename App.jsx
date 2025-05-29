@@ -5,7 +5,6 @@ import {Provider} from 'react-redux';
 import {store, persistor} from './src/redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider as PaperProvider} from 'react-native-paper';
-import Project from './src/components/organisms/ProjectForm';
 
 const App = () => {
   SplashScreen.hide();
@@ -18,8 +17,7 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <PaperProvider>
-          <Project/>
-          {/* <StackNavigator /> */}
+          <StackNavigator />
         </PaperProvider>
       </PersistGate>
     </Provider>

@@ -9,9 +9,7 @@ import {useStyle} from './style';
 import {COLORS} from '../../../utils/colors';
 import MobilenoFields from '../../molecules/MobilenoField';
 import {getAuth} from '@react-native-firebase/auth';
-import React from 'react';
 import Button from '../../atoms/Button';
-import CustomVectorIcon from '../../atoms/VectorIcon';
 
 const RegistrationForm = ({navigation, showToast}) => {
   const styles = useStyle();
@@ -121,6 +119,7 @@ const RegistrationForm = ({navigation, showToast}) => {
               postfixLogo
               onPress={handleSubmit}
               loading={isSubmitting}
+              q
               title="Sign Up"
             />
           </View>

@@ -1,4 +1,5 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
+import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
 import {COLORS} from '../../../utils/colors';
 
 export const useStyle = () => {
@@ -15,10 +16,12 @@ export const useStyle = () => {
       borderRadius: 16,
       padding: 24,
       shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
+      shadowOffset: {width: 0, height: 2},
       shadowOpacity: 0.08,
       shadowRadius: 8,
       elevation: 4,
+      flex: 1,
+      paddingBottom: verticalScale(20),
     },
     title: {
       fontSize: 22,
@@ -28,11 +31,10 @@ export const useStyle = () => {
       textAlign: 'left',
     },
     label: {
-      fontSize: 14,
-      color: COLORS.gray,
-      marginBottom: 6,
-      marginTop: 8,
-      fontWeight: '500',
+      fontSize: moderateScale(13),
+      color: COLORS.textDark,
+      marginBottom: verticalScale(6),
+      marginTop: verticalScale(12),
     },
     input: {
       marginBottom: 8,
@@ -63,5 +65,46 @@ export const useStyle = () => {
       fontSize: 16,
       color: COLORS.black,
     },
+    pickerContainer: {
+      borderColor: COLORS.border,
+      borderWidth: 1,
+      borderRadius: moderateScale(8),
+      marginBottom: verticalScale(5),
+      backgroundColor: COLORS.inputBackground || COLORS.white,
+      justifyContent: 'center',
+      height: Platform.OS === 'ios' ? verticalScale(45) : verticalScale(50),
+    },
+    picker: {
+      width: '100%',
+      height: '100%',
+      color: COLORS.textDark,
+      ...(Platform.OS === 'android' && {}),
+    },
+    errorText: {
+      fontSize: moderateScale(10),
+      color: COLORS.danger,
+      marginTop: verticalScale(2),
+      marginBottom: verticalScale(5),
+    },
+    descriptionInput: {
+      height: verticalScale(100),
+      paddingTop: verticalScale(10),
+    },
+    attachmentButtonsContainer: {
+      flexDirection: 'row',
+      marginTop: verticalScale(15),
+      marginBottom: verticalScale(20),
+    },
+    iconButton: {
+      paddingHorizontal: moderateScale(10),
+      paddingVertical: verticalScale(8),
+      marginRight: moderateScale(10),
+      backgroundColor: COLORS.lightGray,
+      borderRadius: moderateScale(8),
+      borderWidth: 0,
+    },
+    saveButton: {
+      marginTop: verticalScale(15),
+    },
   });
-}
+};

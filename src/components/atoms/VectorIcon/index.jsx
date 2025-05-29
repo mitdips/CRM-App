@@ -16,7 +16,7 @@ const iconMap = {
   MaterialCommunityIcons,
 };
 
-const CustomVectorIcon = ({ name, size = 24, color = '#000', style }) => {
+const CustomVectorIcon = ({ name, size, color = '#000', style }) => {
   const [family, iconName] = name.split(':');
 
   const IconComponent = iconMap[family];
