@@ -1,10 +1,10 @@
 import React from 'react';
-import {Modal, View, Pressable} from 'react-native';
+import {Modal, View, TouchableOpacity} from 'react-native';
 import {COLORS} from '../../../utils/colors';
 import CustomVectorIcon from '../../atoms/VectorIcon';
 import CustomText from '../../atoms/Text';
 import {useStyle} from './style';
-import { scale } from 'react-native-size-matters';
+import {scale} from 'react-native-size-matters';
 
 const styles = useStyle();
 
@@ -22,17 +22,17 @@ const CustomModal = ({visible, onClose, children, title}) => {
               <CustomText style={styles.titleText} type="title">
                 {title}
               </CustomText>
-              <Pressable onPress={onClose}>
+              <TouchableOpacity onPress={onClose}>
                 <CustomVectorIcon
                   name="MaterialCommunityIcons:close"
                   size={scale(20)}
                   color={COLORS.darkGray}
                 />
-              </Pressable>
+              </TouchableOpacity>
             </View>
           )}
           {!title && (
-            <Pressable
+            <TouchableOpacity
               onPress={onClose}
               style={styles.closeButtonNoTitle}>
               <CustomVectorIcon
@@ -40,7 +40,7 @@ const CustomModal = ({visible, onClose, children, title}) => {
                 size={24}
                 color={COLORS.darkGray}
               />
-            </Pressable>
+            </TouchableOpacity>
           )}
           <View style={styles.modalContent}>{children}</View>
         </View>

@@ -22,7 +22,7 @@ export const useStyle = () => {
       alignItems: 'center',
       paddingVertical: scale(10),
       paddingHorizontal: scale(15),
-      borderRadius: scale(10),
+      borderRadius: scale(15),
     },
     drawerItemActive: {
       backgroundColor: COLORS.secondary,

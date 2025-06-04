@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, StatusBar} from 'react-native';
 import HomeTemplate from '../../components/templates/HomeTemplate';
-import CustomText from '../../components/atoms/Text';
 import CustomVectorIcon from '../../components/atoms/VectorIcon';
 import CustomModal from '../../components/molecules/CustomModel';
 import ProjectForm from '../../components/organisms/ProjectForm';
@@ -19,28 +18,26 @@ const ProjectsScreen = ({navigation}) => {
     setIsModalVisible(false);
   };
 
-  const handleFormSubmit = values => {
-    console.log('Project Form Submitted:', values);
-    handleCloseModal();
-  };
-
   return (
-    <HomeTemplate>
-      <TouchableOpacity style={styles.fab} onPress={handleOpenModal}>
-        <CustomVectorIcon
-          name="MaterialCommunityIcons:plus"
-          size={scale(20)}
-          color={COLORS.white}
-        />
-      </TouchableOpacity>
+    <>
+      <StatusBar backgroundColor={COLORS.secondary} barStyle="dark-content" />
+      <HomeTemplate>
+        <TouchableOpacity style={styles.fab} onPress={handleOpenModal}>
+          <CustomVectorIcon
+            name="MaterialCommunityIcons:plus"
+            size={scale(20)}
+            color={COLORS.white}
+          />
+        </TouchableOpacity>
 
-      <CustomModal
-        visible={isModalVisible}
-        onClose={handleCloseModal}
-        title="Add Task">
-        <ProjectForm onSubmit={handleFormSubmit} />
-      </CustomModal>
-    </HomeTemplate>
+        <CustomModal
+          visible={isModalVisible}
+          onClose={handleCloseModal}
+          title="Add Project">
+          <ProjectForm />
+        </CustomModal>
+      </HomeTemplate>
+    </>
   );
 };
 

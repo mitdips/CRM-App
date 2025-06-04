@@ -1,92 +1,81 @@
+// In ProjectForm.js
+
 import React, {useState} from 'react';
-import {View, ScrollView, Platform} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Formik} from 'formik';
-import * as Yup from 'yup';
 import Input from '../../atoms/Input';
 import Button from '../../atoms/Button';
-import CustomVectorIcon from '../../atoms/VectorIcon';
-import {COLORS} from '../../../utils/colors';
 import {useStyle} from './style';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import {projectValidationSchema} from '../../../utils/validationSchema';
+import {
+  assigneeOptions,
+  priorityOptions,
+  projectGroupOptions,
+} from '../../../utils/constant';
+import DropDownPicker from 'react-native-dropdown-picker';
+import Text from '../../atoms/Text';
 
 const styles = useStyle();
 
-// Dummy data for pickers - replace with your actual data source
-const taskGroupOptions = [
-  {label: 'Design', value: 'design'},
-  {label: 'Development', value: 'development'},
-  {label: 'Marketing', value: 'marketing'},
-  {label: 'Testing', value: 'testing'},
-];
+const ProjectForm = ({onSubmit}) => {
+  const [projectGroupOpen, setProjectGroupOpen] = useState(false);
+  const [priorityOpen, setPriorityOpen] = useState(false);
+  const [assigneeOpen, setAssigneeOpen] = useState(false);
 
-const priorityOptions = [
-  {label: 'High', value: 'high'},
-  {label: 'Medium', value: 'medium'},
-  {label: 'Low', value: 'low'},
-];
+  const [projectGroupItems, setProjectGroupItems] =
+    useState(projectGroupOptions);
+  const [priorityItems, setPriorityItems] = useState(priorityOptions);
+  const [assigneeItems, setAssigneeItems] = useState(assigneeOptions);
 
-const assigneeOptions = [
-  {label: 'User 1', value: 'user1'},
-  {label: 'User 2', value: 'user2'},
-  {label: 'User 3', value: 'user3'},
-];
+  const projectGroupZIndex = projectGroupOpen ? 4000 : 1;
+  const priorityZIndex = priorityOpen ? 3000 : 1;
+  const assigneeZIndex = assigneeOpen ? 2000 : 1;
 
-const projectValidationSchema = Yup.object().shape({
-  taskName: Yup.string().required('Task name is required'),
-  taskGroup: Yup.string().required('Task group is required'),
-  estimate: Yup.object()
-    .shape({
-      hours: Yup.number().min(0).max(23),
-      minutes: Yup.number().min(0).max(59),
-    })
-    .nullable(),
-  deadline: Yup.date().nullable().required('Deadline is required'),
-  priority: Yup.string().required('Priority is required'),
-  assignee: Yup.string().required('Assignee is required'),
-  description: Yup.string(),
-});
-
-const ProjectForm = ({onSubmit, initialValues = {}}) => {
-  const [showPicker, setShowPicker] = useState(false);
-  const [pickerMode, setPickerMode] = useState('date');
-  const [currentField, setCurrentField] = useState('');
-
-  const defaultInitialValues = {
-    taskName: '',
-    taskGroup: taskGroupOptions[0]?.value || '',
+  const initialValues = {
+    projectName: '',
+    projectGroup: projectGroupOptions[0]?.value || null,
     estimate: null,
     deadline: null,
-    priority: priorityOptions[1]?.value || '',
-    assignee: assigneeOptions[0]?.value || '',
+    priority: priorityOptions[1]?.value || null,
+    assignee: assigneeOptions[0]?.value || null,
     description: '',
-    ...initialValues,
   };
 
-  const showMode = (currentMode, fieldName) => {
-    setShowPicker(true);
-    setPickerMode(currentMode);
-    setCurrentField(fieldName);
+  const formatDateForDisplay = dateObj => {
+    if (!dateObj || !(dateObj instanceof Date)) return '';
+    return dateObj.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   };
 
-  const formatTime = timeObj => {
+  const formatTimeForDisplay = estimateObj => {
     if (
-      !timeObj ||
-      typeof timeObj.hours === 'undefined' ||
-      typeof timeObj.minutes === 'undefined'
+      !estimateObj ||
+      typeof estimateObj.hours === 'undefined' ||
+      typeof estimateObj.minutes === 'undefined'
     ) {
       return '';
     }
-    const hours = String(timeObj.hours).padStart(2, '0');
-    const minutes = String(timeObj.minutes).padStart(2, '0');
-    return `${hours}:${minutes}`;
+    const tempDate = new Date();
+    tempDate.setHours(estimateObj.hours, estimateObj.minutes);
+    return tempDate.toLocaleTimeString(undefined, {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   };
 
   return (
     <Formik
-      initialValues={defaultInitialValues}
+      initialValues={initialValues}
       validationSchema={projectValidationSchema}
+      enableReinitialize
       onSubmit={(values, actions) => {
-        onSubmit(values);
+        console.log('[ProjectForm] Form Submitted. Values:', values);
+        if (onSubmit) {
+          onSubmit(values);
+        }
         actions.setSubmitting(false);
       }}>
       {({
@@ -99,92 +88,136 @@ const ProjectForm = ({onSubmit, initialValues = {}}) => {
         setFieldValue,
         isSubmitting,
       }) => {
-        const onPickerChange = (event, selectedValue) => {
-          setShowPicker(false);
-          if (event.type === 'set' && selectedValue) {
-            if (currentField === 'deadline') {
-              setFieldValue('deadline', selectedValue);
-            } else if (currentField === 'estimate') {
-              const hours = selectedValue.getHours();
-              const minutes = selectedValue.getMinutes();
-              setFieldValue('estimate', {hours, minutes});
-            }
-          }
-        };
+        const estimateDisplayValue = formatTimeForDisplay(values.estimate);
+        const deadlineDisplayValue = formatDateForDisplay(values.deadline);
 
         return (
           <ScrollView
             style={styles.container}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled">
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.contentContainer}
+            nestedScrollEnabled={true}>
             <Input
-              placeholder="Task Name"
-              onChangeText={handleChange('taskName')}
-              onBlur={handleBlur('taskName')}
-              value={values.taskName}
-              error={touched.taskName && errors.taskName}
+              placeholder="Project Name"
+              onChangeText={handleChange('projectName')}
+              onBlur={handleBlur('projectName')}
+              value={values.projectName}
+              error={touched.projectName && errors.projectName}
             />
-            <Input
-              placeholder="Select Task Group"
-              onChangeText={handleChange('taskGroup')}
-              onBlur={handleBlur('taskGroup')}
-              value={values.taskGroup}
-              error={touched.taskGroup && errors.taskGroup}
-            />
-            <Input
-              dataType="date"
-              placeholder="Select duration"
-              onDateChange={() => showMode('date', 'deadline')}
-              value={
-                values.deadline ? values.deadline.toLocaleDateString() : ''
-              }
-              error={touched.estimate && errors.estimate?.hours}
-            />
+            <View style={{zIndex: projectGroupZIndex}}>
+              <DropDownPicker
+                open={projectGroupOpen}
+                value={values.projectGroup}
+                items={projectGroupItems}
+                setOpen={setProjectGroupOpen}
+                setItems={setProjectGroupItems}
+                setValue={callback => {
+                  const selectedVal = callback(values.projectGroup);
+                  setFieldValue('projectGroup', selectedVal);
+                }}
+                placeholder="Select Project Group"
+                style={styles.dropdown}
+                textStyle={styles.pickerTextStyle}
+                placeholderStyle={styles.placeholder}
+                dropDownContainerStyle={styles.dropdownContainer}
+                labelStyle={styles.dropdownItemLabelStyle}
+                listMode="SCROLLVIEW"
+                dropDownDirection="AUTO"
+                zIndex={projectGroupZIndex}
+                onOpen={() => {
+                  setPriorityOpen(false);
+                  setAssigneeOpen(false);
+                }}
+              />
+            </View>
+            {touched.projectGroup && errors.projectGroup && (
+              <Text style={styles.errorText}>{errors.projectGroup}</Text>
+            )}
+
+            {/* Estimate Input (Time) */}
             <Input
               dataType="time"
+              placeholder="Select Duration"
+              value={estimateDisplayValue}
+              onDateChange={selectedTime => {
+                if (selectedTime) {
+                  const hours = selectedTime.getHours();
+                  const minutes = selectedTime.getMinutes();
+                  setFieldValue('estimate', {hours, minutes});
+                }
+              }}
+              error={touched.estimate && errors.estimate}
+            />
+
+            {/* Deadline Input (Date) */}
+            <Input
+              dataType="date"
               placeholder="Select Date"
-              onDateChange={() => showMode('time', 'estimate')}
-              value={values.estimate ? formatTime(values.estimate) : ''}
+              value={deadlineDisplayValue}
+              onDateChange={selectedDate => {
+                if (selectedDate) {
+                  setFieldValue('deadline', selectedDate);
+                }
+              }}
               error={touched.deadline && errors.deadline}
             />
 
-            {showPicker && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={
-                  currentField === 'deadline'
-                    ? values.deadline || new Date()
-                    : values.estimate
-                    ? new Date(
-                        new Date().setHours(
-                          values.estimate.hours,
-                          values.estimate.minutes,
-                        ),
-                      )
-                    : new Date()
-                }
-                mode={pickerMode}
-                is24Hour={true}
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                onChange={onPickerChange}
+            <View style={{zIndex: priorityZIndex}}>
+              <DropDownPicker
+                open={priorityOpen}
+                value={values.priority}
+                items={priorityItems}
+                setOpen={setPriorityOpen}
+                setValue={callback => {
+                  const selectedVal = callback(values.priority);
+                  setFieldValue('priority', selectedVal);
+                }}
+                setItems={setPriorityItems}
+                placeholder="Select Priority"
+                style={styles.dropdown}
+                textStyle={styles.pickerTextStyle}
+                placeholderStyle={styles.placeholder}
+                dropDownContainerStyle={styles.dropdownContainer}
+                labelStyle={styles.dropdownItemLabelStyle}
+                zIndex={priorityZIndex}
+                onOpen={() => {
+                  setProjectGroupOpen(false);
+                  setAssigneeOpen(false);
+                }}
               />
+            </View>
+            {touched.priority && errors.priority && (
+              <Text style={styles.errorText}>{errors.priority}</Text>
+            )}
+            <View style={{zIndex: assigneeZIndex}}>
+              <DropDownPicker
+                open={assigneeOpen}
+                value={values.assignee}
+                items={assigneeItems}
+                setOpen={setAssigneeOpen}
+                setValue={callback => {
+                  const selectedVal = callback(values.assignee);
+                  setFieldValue('assignee', selectedVal);
+                }}
+                setItems={setAssigneeItems}
+                placeholder="Select Assignee"
+                style={styles.dropdown}
+                textStyle={styles.pickerTextStyle}
+                placeholderStyle={styles.placeholder}
+                dropDownContainerStyle={styles.dropdownContainer}
+                labelStyle={styles.dropdownItemLabelStyle}
+                zIndex={assigneeZIndex}
+                onOpen={() => {
+                  setProjectGroupOpen(false);
+                  setPriorityOpen(false);
+                }}
+              />
+            </View>
+            {touched.assignee && errors.assignee && (
+              <Text style={styles.errorText}>{errors.assignee}</Text>
             )}
             <Input
-              placeholder="Select Priority"
-              onChangeText={handleChange('priority')}
-              onBlur={handleBlur('priority')}
-              value={values.priority}
-              error={touched.priority && errors.priority}
-            />
-            <Input
-              placeholder="Select Assignee"
-              onChangeText={handleChange('assignee')}
-              onBlur={handleBlur('assignee')}
-              value={values.assignee}
-              error={touched.assignee && errors.assignee}
-            />
-            <Input
-              placeholder="Add some description of the task"
+              placeholder="Description of the project"
               onChangeText={handleChange('description')}
               onBlur={handleBlur('description')}
               value={values.description}
@@ -192,43 +225,11 @@ const ProjectForm = ({onSubmit, initialValues = {}}) => {
               multiline
               numberOfLines={3}
               textAlignVertical="top"
-              // style={styles.descriptionInput}
             />
-
-            {/* <View style={styles.attachmentButtonsContainer}>
-              <Button
-                prefixLogo={
-                  <CustomVectorIcon
-                    name="paperclip"
-                    family="Feather"
-                    size={20}
-                    color={COLORS.primary}
-                  />
-                }
-                buttonStyle={styles.iconButton}
-                onPress={() => console.log('Attach file')}
-                type="text"
-              />
-              <Button
-                prefixLogo={
-                  <CustomVectorIcon
-                    name="link-2"
-                    family="Feather"
-                    size={20}
-                    color={COLORS.secondary}
-                  />
-                }
-                buttonStyle={styles.iconButton}
-                onPress={() => console.log('Add link')}
-                type="text"
-              />
-            </View> */}
-
             <Button
               title="Save Project"
               onPress={handleSubmit}
               loading={isSubmitting}
-              buttonStyle={styles.saveButton}
             />
           </ScrollView>
         );

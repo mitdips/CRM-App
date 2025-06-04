@@ -10,10 +10,9 @@ export const loginValidationSchema = Yup.object().shape({
     .required('Password is required')
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+      'Password must contain at least one uppercase letter, one lowercase letter, and one number',
     ),
 });
-
 
 export const forgotPasswordSchema = Yup.object().shape({
   email: Yup.string()
@@ -41,9 +40,24 @@ export const registrationValidationSchema = Yup.object().shape({
     .required('Password is required')
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+      'Password must contain at least one uppercase letter, one lowercase letter, and one number',
     ),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
     .required('Confirm password is required'),
+});
+
+export const projectValidationSchema = Yup.object().shape({
+  projectName: Yup.string().required('Project name is required'),
+  projectGroup: Yup.string().required('Project group is required'),
+  estimate: Yup.object()
+    .shape({
+      hours: Yup.number().min(0).max(23),
+      minutes: Yup.number().min(0).max(59),
+    })
+    .nullable(),
+  deadline: Yup.date().nullable().required('Project deadline is required'),
+  priority: Yup.string().required('Project priority is required'),
+  assignee: Yup.string().required('Project assignee is required'),
+  description: Yup.string(),
 });

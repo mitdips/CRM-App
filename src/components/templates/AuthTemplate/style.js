@@ -13,7 +13,7 @@ export const useStyle = () => {
       paddingHorizontal: scale(16),
       paddingVertical: scale(16),
       backgroundColor: COLORS.white,
-      borderRadius: 15,
+      borderRadius: scale(15),
       gap: scale(16),
     },
   });

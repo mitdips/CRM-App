@@ -31,7 +31,7 @@ const Input = ({
   onDateChange,
   dateIconName = 'MaterialCommunityIcons:calendar',
   timeIconName = 'MaterialCommunityIcons:clock-outline',
-  ...rest
+  ...props
 }) => {
   const [internalDate, setInternalDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
@@ -191,7 +191,7 @@ const Input = ({
       )}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
-      {...rest}
+      {...props}
     />
   );
 

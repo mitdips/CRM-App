@@ -5,9 +5,9 @@ import HomeTemplate from '../../components/templates/HomeTemplate';
 const DashboardScreen = () => {
   return (
     <HomeTemplate>
-      <View style={styles.container}>
+    <View style={styles.container}>
         <Text style={styles.text}>Dashboard Screen Content</Text>
-      </View>
+    </View>
     </HomeTemplate>
   );
 };

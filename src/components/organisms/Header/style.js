@@ -10,7 +10,7 @@ export const useStyle = () => {
         justifyContent: 'space-between',
         padding: scale(15),
         backgroundColor: COLORS.white,
-        borderRadius: scale(16),
+        borderRadius: scale(15),
         marginVertical: scale(10),
       },
       logo: {

@@ -3,7 +3,7 @@ import {scale} from 'react-native-size-matters';
 export const useStyle = () => {
   return StyleSheet.create({
     button: {
-      borderRadius: 15,
+      borderRadius: scale(12),
       paddingVertical: scale(9),
       paddingHorizontal: scale(24),
       alignItems: 'center',
