@@ -1,5 +1,6 @@
 import React from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+// import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer'
 import CustomDrawerContent from '../routes/CustomDrawer';
 import DashboardScreen from '../screens/Dashboard';
 import ProjectsScreen from '../screens/Projects';
